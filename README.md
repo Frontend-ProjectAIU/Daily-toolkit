@@ -44,6 +44,8 @@ python3 -m http.server 8000
 
 Из этой папки выполните:
 
+Olzhas
+
 ```bash
 git init
 git add .
