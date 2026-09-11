@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Стол — три маленьких инструмента</title>
+  <meta name="description" content="Список дел, заметки и таймер фокуса в одном тихом уголке браузера." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%234B6455%22/></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="desk">
+
+    <header class="desk__header">
+      <h1 class="desk__title">Стол</h1>
+      <p class="desk__subtitle">Три маленьких инструмента для обычного дня. Всё хранится только у вас в браузере.</p>
+    </header>
+
+    <nav class="tabs" aria-label="Инструменты">
+      <button class="tabs__item is-active" data-tab="todo" role="tab" aria-selected="true">Список дел</button>
+      <button class="tabs__item" data-tab="notes" role="tab" aria-selected="false">Заметки</button>
+      <button class="tabs__item" data-tab="timer" role="tab" aria-selected="false">Таймер фокуса</button>
+    </nav>
+
+    <main class="panels">
+
+      <!-- Список дел -->
+      <section class="panel is-active" id="panel-todo" role="tabpanel">
+        <form class="todo-form" id="todo-form">
+          <input
+            type="text"
+            id="todo-input"
+            class="field"
+            placeholder="Что нужно сделать?"
+            autocomplete="off"
+            maxlength="140"
+          />
+          <button type="submit" class="btn">Добавить</button>
+        </form>
+
+        <ul class="todo-list" id="todo-list"></ul>
+
+        <p class="empty-state" id="todo-empty">Список пуст. Впишите первое дело выше.</p>
+
+        <div class="panel-footer" id="todo-footer" hidden>
+          <span id="todo-count">0 дел</span>
+          <button class="link-btn" id="todo-clear-done" type="button">Убрать выполненные</button>
+        </div>
+      </section>
+
+      <!-- Заметки -->
+      <section class="panel" id="panel-notes" role="tabpanel">
+        <textarea
+          id="notes-area"
+          class="notes-area"
+          placeholder="Пишите здесь всё, что нужно держать под рукой — мысли, ссылки, черновики…"
+          spellcheck="false"
+        ></textarea>
+        <div class="panel-footer">
+          <span id="notes-status">Сохранено</span>
+          <button class="link-btn" id="notes-clear" type="button">Очистить</button>
+        </div>
+      </section>
+
+      <!-- Таймер фокуса -->
+      <section class="panel" id="panel-timer" role="tabpanel">
+        <div class="timer">
+          <div class="timer__display" id="timer-display">25:00</div>
+
+          <div class="timer__lengths" id="timer-lengths">
+            <button class="chip is-active" data-minutes="25" type="button">25 мин</button>
+            <button class="chip" data-minutes="15" type="button">15 мин</button>
+            <button class="chip" data-minutes="5" type="button">5 мин</button>
+          </div>
+
+          <div class="timer__controls">
+            <button class="btn" id="timer-toggle" type="button">Начать</button>
+            <button class="link-btn" id="timer-reset" type="button">Сбросить</button>
+          </div>
+
+          <p class="timer__note" id="timer-note">Один спокойный отрезок времени — без уведомлений и лишнего шума.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="desk__foot">
+      <span>Ничего не отправляется на сервер — все данные остаются в этом браузере.</span>
+    </footer>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

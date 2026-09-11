@@ -1,0 +1,373 @@
+/* ----------------------------------------------------------
+   Токены темы
+---------------------------------------------------------- */
+:root {
+  --bg: #EEF1EE;
+  --bg-raised: #F7F9F7;
+  --ink: #1F2A24;
+  --ink-soft: #55645B;
+  --line: #D6DCD5;
+  --moss: #4B6455;
+  --moss-deep: #35472F;
+  --gold: #B9945C;
+  --danger: #A6503C;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --radius: 10px;
+  --gap: 1.5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root { --transition: 160ms ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --transition: 0ms; }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px);
+  background-size: 100% 2.25rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--moss);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------
+   Каркас
+---------------------------------------------------------- */
+.desk {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4rem;
+}
+
+.desk__header {
+  margin-bottom: 2.25rem;
+}
+
+.desk__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.25rem, 5vw, 3rem);
+  margin: 0 0 0.5rem;
+  color: var(--moss-deep);
+}
+
+.desk__subtitle {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+/* ----------------------------------------------------------
+   Вкладки
+---------------------------------------------------------- */
+.tabs {
+  display: flex;
+  gap: 1.75rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 2rem;
+}
+
+.tabs__item {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 0 0 0.85rem;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.tabs__item:hover {
+  color: var(--ink);
+}
+
+.tabs__item.is-active {
+  color: var(--moss-deep);
+  border-bottom-color: var(--moss);
+}
+
+/* ----------------------------------------------------------
+   Панели
+---------------------------------------------------------- */
+.panel {
+  display: none;
+}
+
+.panel.is-active {
+  display: block;
+  animation: rise 220ms ease;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel.is-active { animation: none; }
+}
+
+.panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+/* ----------------------------------------------------------
+   Общие элементы форм
+---------------------------------------------------------- */
+.field {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.9rem;
+  width: 100%;
+  transition: border-color var(--transition);
+}
+
+.field:hover { border-color: var(--ink-soft); }
+.field:focus { border-color: var(--moss); }
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: var(--moss);
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn:hover { background: var(--moss-deep); }
+.btn:active { transform: translateY(1px); }
+
+.link-btn {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.link-btn:hover { color: var(--danger); }
+
+/* ----------------------------------------------------------
+   Список дел
+---------------------------------------------------------- */
+.todo-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.todo-item:first-child { border-top: 1px solid var(--line); }
+
+.todo-item__check {
+  flex-shrink: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-top: 0.15rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink-soft);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.todo-item__check:hover { border-color: var(--moss); }
+
+.todo-item.is-done .todo-item__check {
+  background: var(--moss);
+  border-color: var(--moss);
+}
+
+.todo-item__text {
+  flex: 1;
+  word-break: break-word;
+}
+
+.todo-item.is-done .todo-item__text {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+}
+
+.todo-item__remove {
+  appearance: none;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  transition: color var(--transition);
+}
+
+.todo-item__remove:hover { color: var(--danger); }
+
+.empty-state {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   Заметки
+---------------------------------------------------------- */
+.notes-area {
+  width: 100%;
+  min-height: 260px;
+  resize: vertical;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  transition: border-color var(--transition);
+}
+
+.notes-area:focus { border-color: var(--moss); }
+
+/* ----------------------------------------------------------
+   Таймер
+---------------------------------------------------------- */
+.timer {
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.timer__display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3.5rem, 14vw, 5rem);
+  color: var(--moss-deep);
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer__lengths {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+
+.chip {
+  appearance: none;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.chip:hover { border-color: var(--moss); }
+
+.chip.is-active {
+  border-color: var(--moss);
+  color: var(--moss-deep);
+  background: #E7ECE4;
+}
+
+.timer__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.timer__note {
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  max-width: 34ch;
+  margin: 0 auto;
+}
+
+/* ----------------------------------------------------------
+   Подвал
+---------------------------------------------------------- */
+.desk__foot {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+/* ----------------------------------------------------------
+   Мобильная адаптация
+---------------------------------------------------------- */
+@media (max-width: 480px) {
+  .desk { padding: 2.25rem 1.1rem 3rem; }
+  .tabs { gap: 1.1rem; }
+  .todo-form { flex-direction: column; }
+  .todo-form .btn { width: 100%; }
+}
