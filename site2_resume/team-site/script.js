@@ -8,7 +8,7 @@ const panelEl = document.getElementById("panel");
 people.forEach((p, i) => {
   const btn = document.createElement("button");
   btn.className = "tab" + (i === 0 ? " active" : "");
-  btn.innerHTML = `<span class="num">${i}</span>${p.name}`;
+  btn.innerHTML = `<img class="tab-photo" src="${p.photo}" alt="${p.name}"><span class="tab-info"><span class="tab-name">${p.name}</span><span class="tab-role">${p.role}</span></span>`;
   btn.onclick = () => openPerson(i);
   tabsEl.appendChild(btn);
 });

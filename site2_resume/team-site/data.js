@@ -21,7 +21,7 @@ const people = [
   {
     name: "Парахат Медет",
     role: "Frontend-разработчик",
-    photo: "photos/ivan.jpg",
+    photo: "photos/Medet.jpg",
     education: "Astana International University, Высшая школа информационных технологий и инженерии, бакалавр Computer Science and Software, 2022–2026",
     experience: "ТОО «Astana Creative», 2024 — наст. время: разработка пользовательских интерфейсов и адаптивная вёрстка веб-приложений.",
     skills: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Git"],

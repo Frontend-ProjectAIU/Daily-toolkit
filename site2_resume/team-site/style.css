@@ -49,30 +49,57 @@ h1 {
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px;
 }
 
 .tab {
   font-family: 'Source Sans 3', sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
   color: var(--chalk);
-  background: transparent;
-  border: 2px solid rgba(244, 242, 234, 0.35);
-  border-radius: 8px;
-  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(244, 242, 234, 0.25);
+  border-radius: 12px;
+  padding: 14px 18px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.2s, background 0.2s;
+  min-width: 200px;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .tab.active {
   border-color: var(--gold);
+  background: rgba(226, 176, 79, 0.1);
 }
 
-.tab .num {
-  font-family: 'Caveat', cursive;
-  font-style: italic;
-  color: var(--gold);
-  margin-right: 4px;
+.tab-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #ddd;
+}
+
+.tab-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.tab-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.tab-role {
+  font-size: 0.78rem;
+  color: var(--chalk-dim);
+  margin-top: 2px;
 }
 
 /* Панель с резюме — скрыта, пока не нажали на вкладку */
