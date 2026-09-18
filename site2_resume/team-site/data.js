@@ -41,7 +41,7 @@ const people = [
   {
     name: "Сәрсенбайұлы Аманқос",
     role: "Frontend/Backend-разработчик",
-    photo: "photos/aleksey.jpg",
+    photo: "photos/Amankos.jpg",
     education: "Astana International University, Высшая школа информационных технологий и инженерии, бакалавр Computer Science and Software, 2022–2026",
     experience: "ООО «ТМЫВ ДЕНЕГ», 2006 — наст. время: fullstack-разработка веб-приложений, проектирование серверной архитектуры и клиентских интерфейсов.",
     skills: ["JavaScript", "Node.js", "Python", "PostgreSQL", "React", "Docker"],
