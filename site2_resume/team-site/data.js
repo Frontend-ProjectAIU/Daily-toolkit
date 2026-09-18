@@ -31,7 +31,7 @@ const people = [
   {
     name: "Укенов Олжас",
     role: "Frontend-разработчик",
-    photo: "photos/maria.jpg",
+    photo: "photos/Olzhas.jpg",
     education: "Astana International University, Высшая школа информационных технологий и инженерии, бакалавр Computer Science and Software, 2023–2027",
     experience: "ТОО «WIT.KZ», 2024 — наст. время: веб-разработка клиентской части, вёрстка и интеграция API. Опыт работы — 2 года.",
     skills: ["HTML/CSS", "JavaScript", "Git"],
