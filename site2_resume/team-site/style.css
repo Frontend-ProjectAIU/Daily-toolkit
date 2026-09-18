@@ -1,0 +1,141 @@
+:root {
+  --board: #173d2e;
+  --chalk: #f4f2ea;
+  --chalk-dim: #c9d3c9;
+  --gold: #e2b04f;
+  --paper: #fbf8f0;
+  --ink: #202b22;
+  --ink-soft: #5a6a5f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--board);
+  font-family: 'Source Sans 3', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px 60px;
+}
+
+.board {
+  width: 100%;
+  max-width: 700px;
+}
+
+h1 {
+  font-family: 'Caveat', cursive;
+  color: var(--chalk);
+  font-size: 2.6rem;
+  margin: 0 0 6px;
+}
+
+.subtitle {
+  color: var(--chalk-dim);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.index-label {
+  font-family: 'Caveat', cursive;
+  font-style: italic;
+  color: var(--chalk);
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tab {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--chalk);
+  background: transparent;
+  border: 2px solid rgba(244, 242, 234, 0.35);
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-color: var(--gold);
+}
+
+.tab .num {
+  font-family: 'Caveat', cursive;
+  font-style: italic;
+  color: var(--gold);
+  margin-right: 4px;
+}
+
+/* Панель с резюме — скрыта, пока не нажали на вкладку */
+.panel {
+  display: none;
+  width: 100%;
+  max-width: 700px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 28px;
+}
+
+.head {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #ddd;
+}
+
+.head h2 {
+  margin: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 1.9rem;
+}
+
+.head p {
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section h3 {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.section p {
+  margin: 0 0 6px;
+}
+
+.skills span {
+  display: inline-block;
+  background: rgba(226, 176, 79, 0.18);
+  border: 1px solid rgba(226, 176, 79, 0.4);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  margin: 0 6px 6px 0;
+}
