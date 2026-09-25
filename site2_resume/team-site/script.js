@@ -1,43 +1,20 @@
-// Список участников и резюме на одной странице index.html.
-// Информация о людях находится в data.js.
+// Все профили и оба задания переключаются внутри index.html.
+// Информация об участниках находится в data.js.
 
 const tabsEl = document.getElementById("tabs");
 const panelEl = document.getElementById("panel");
-const pageParams = new URLSearchParams(location.search);
-const personParam = pageParams.get("person");
-const requestedView = pageParams.get("view");
-const showTask1 = personParam === null && (requestedView === "task1" || requestedView === "tasks");
-const showTask2 = personParam === null && requestedView === "task2";
+const task1El = document.getElementById("task-1");
+const task2El = document.getElementById("task-2");
+const tabDefinitions = [
+  ...people.map((person, index) => ({ key: `person-${index}`, label: person.name, panel: "panel" })),
+  { key: "task1", label: "Задание 1", panel: "task-1" },
+  { key: "task2", label: "Задание 2", panel: "task-2" }
+];
 
-if (tabsEl && personParam === null && !showTask1 && !showTask2) {
-  document.getElementById("people-count").textContent = `${people.length} участника`;
-  people.forEach((p, i) => {
-    const link = document.createElement("a");
-    link.className = "tab";
-    link.href = `index.html?person=${i}`;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">↗</span></span></div>`;
-    tabsEl.appendChild(link);
-  });
-}
+document.getElementById("people-count").textContent = `${people.length} участника`;
 
-if (showTask1 || showTask2) {
-  document.getElementById("team-view").hidden = true;
-  document.getElementById(showTask1 ? "task-1" : "task-2").hidden = false;
-  document.getElementById("header-caption").hidden = true;
-  document.getElementById("back-link").hidden = false;
-  document.title = `${showTask1 ? "1-тапсырма" : "2-тапсырма"} — Наша команда`;
-}
-
-if (panelEl && personParam !== null) {
-  document.getElementById("team-view").hidden = true;
-  document.getElementById("header-caption").hidden = true;
-  document.getElementById("back-link").hidden = false;
-  panelEl.hidden = false;
-
-  const personIndex = /^\d+$/.test(personParam) ? Number(personParam) : -1;
-  const p = Number.isInteger(personIndex) ? people[personIndex] : undefined;
+function renderProfile(personIndex) {
+  const p = people[personIndex];
 
   if (!p) {
     panelEl.innerHTML = '<div class="not-found page-enter"><h1>Резюме не найдено</h1><p>Вернитесь к списку участников и выберите профиль.</p><a class="back-link" href="index.html">← Все участники</a></div>';
@@ -64,22 +41,91 @@ if (panelEl && personParam !== null) {
       ${isAmankos ? '<div class="special-action reveal"><button class="yuhu-btn" onclick="yuhuBoom()">🎉 Юху</button></div>' : ''}
     `;
   }
+  panelEl.querySelectorAll(".reveal").forEach((item) => item.classList.add("is-visible"));
 }
 
-const revealItems = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" });
-  revealItems.forEach(item => observer.observe(item));
-} else {
-  revealItems.forEach(item => item.classList.add("is-visible"));
+tabDefinitions.forEach((definition, index) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "tab";
+  button.id = `tab-${definition.key}`;
+  button.dataset.key = definition.key;
+  button.setAttribute("role", "tab");
+  button.setAttribute("aria-controls", definition.panel);
+  button.setAttribute("aria-selected", "false");
+  button.tabIndex = -1;
+  button.innerHTML = `<span class="tab-number">${String(index + 1).padStart(2, "0")}</span><span>${definition.label}</span>`;
+  tabsEl.appendChild(button);
+});
+
+function keyFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const person = params.get("person");
+  if (person !== null && /^\d+$/.test(person) && people[Number(person)]) {
+    return `person-${Number(person)}`;
+  }
+  if (params.get("view") === "task2") return "task2";
+  if (params.get("view") === "task1" || params.get("view") === "tasks") return "task1";
+  return tabDefinitions[0].key;
 }
+
+function selectTab(key, updateUrl = false) {
+  const selected = tabDefinitions.find((definition) => definition.key === key) || tabDefinitions[0];
+  const isProfile = selected.key.startsWith("person-");
+
+  panelEl.hidden = !isProfile;
+  task1El.hidden = selected.key !== "task1";
+  task2El.hidden = selected.key !== "task2";
+
+  if (isProfile) {
+    const personIndex = Number(selected.key.slice("person-".length));
+    panelEl.setAttribute("aria-labelledby", `tab-${selected.key}`);
+    renderProfile(personIndex);
+  } else {
+    document.title = `${selected.label} — Наша команда`;
+  }
+
+  tabsEl.querySelectorAll('[role="tab"]').forEach((button) => {
+    const active = button.dataset.key === selected.key;
+    button.setAttribute("aria-selected", String(active));
+    button.tabIndex = active ? 0 : -1;
+  });
+
+  const newDiv = document.querySelector(".new-div");
+  if (newDiv) newDiv.hidden = selected.key !== "task1";
+
+  if (updateUrl) {
+    const url = new URL("index.html", location.href);
+    if (isProfile) url.searchParams.set("person", selected.key.slice("person-".length));
+    else url.searchParams.set("view", selected.key);
+    history.pushState(null, "", url);
+  }
+}
+
+tabsEl.addEventListener("click", (event) => {
+  const button = event.target.closest('[role="tab"]');
+  if (button) selectTab(button.dataset.key, true);
+});
+
+tabsEl.addEventListener("keydown", (event) => {
+  const buttons = [...tabsEl.querySelectorAll('[role="tab"]')];
+  const currentIndex = buttons.indexOf(document.activeElement);
+  if (currentIndex < 0) return;
+
+  let nextIndex;
+  if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % buttons.length;
+  else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+  else if (event.key === "Home") nextIndex = 0;
+  else if (event.key === "End") nextIndex = buttons.length - 1;
+  else return;
+
+  event.preventDefault();
+  buttons[nextIndex].focus();
+  selectTab(buttons[nextIndex].dataset.key, true);
+});
+
+window.addEventListener("popstate", () => selectTab(keyFromUrl()));
+selectTab(keyFromUrl());
 
 // ==========================================
 // 🤡 СЕКРЕТНАЯ КНОПКА АМАНКОСА 🤡

@@ -1,5 +1,5 @@
-// 1-тапсырма: все изменения элементов запускаются действиями пользователя.
-if (!document.getElementById("task-1").hidden) {
+// 1-тапсырма: обработчики готовы, даже когда вкладка скрыта.
+{
   const greeting = document.getElementById("greeting");
   const greetingButton = document.getElementById("change-greeting");
 
@@ -73,7 +73,7 @@ if (!document.getElementById("task-1").hidden) {
 }
 
 // 2-тапсырма: переключение active и вывод всех классов.
-if (!document.getElementById("task-2").hidden) {
+{
   const classTarget = document.getElementById("class-target");
   const classListOutput = document.getElementById("class-list");
   const toggleButton = document.getElementById("toggle-active");
