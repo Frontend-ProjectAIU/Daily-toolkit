@@ -1,5 +1,5 @@
-// Демонстрация заданий показывается только в списке команды.
-if (new URLSearchParams(location.search).get("person") === null) {
+// Демонстрация запускается только на экране заданий.
+if (!document.getElementById("dom-demo").hidden) {
   // 1-тапсырма: DOM элементтерін өзгерту, қосу және жою.
   document.getElementById("greeting").textContent = "Сәлем, әлем!";
 
@@ -9,6 +9,7 @@ if (new URLSearchParams(location.search).get("person") === null) {
   document.body.appendChild(newDiv);
 
   document.querySelector(".old-element").remove();
+  document.getElementById("removed-status").textContent = "✓ Элемент .old-element удалён со страницы";
 
   const changeableParagraph = document.createElement("p");
   changeableParagraph.textContent = "Бұл ауыспалы абзац";
@@ -19,8 +20,9 @@ if (new URLSearchParams(location.search).get("person") === null) {
 
   function changeParagraphStyle() {
     const changed = changeableParagraph.style.color !== "";
-    changeableParagraph.style.color = changed ? "" : "#3f5b49";
-    changeableParagraph.style.fontSize = changed ? "" : "1.5rem";
+    changeableParagraph.style.color = changed ? "" : "#fff";
+    changeableParagraph.style.fontSize = changed ? "" : "1.6rem";
+    changeableParagraph.style.backgroundColor = changed ? "" : "#3f5b49";
   }
 
   changeableParagraph.addEventListener("click", changeParagraphStyle);
@@ -39,6 +41,9 @@ if (new URLSearchParams(location.search).get("person") === null) {
     const classes = [...classTarget.classList];
     console.log("Элемент кластары:", classes);
     classListOutput.textContent = `Кластар: ${classes.join(", ") || "жоқ"}`;
+    document.getElementById("toggle-active").textContent = classTarget.classList.contains("active")
+      ? "Убрать класс active"
+      : "Добавить класс active";
   }
 
   document.getElementById("toggle-active").addEventListener("click", () => {

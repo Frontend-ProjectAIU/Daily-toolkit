@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Наша команда</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -35,25 +35,39 @@
       <div class="tabs" id="tabs"></div>
     </section>
 
-    <section class="dom-demo reveal" aria-labelledby="dom-demo-title">
+    <a class="task-link reveal" href="index.html?view=tasks">
+      <span class="eyebrow">JAVASCRIPT · DOM</span>
+      <strong>1–2 тапсырма</strong>
+      <span>Открыть задания <span aria-hidden="true">→</span></span>
+    </a>
+    </div>
+
+    <section class="dom-demo reveal" id="dom-demo" aria-labelledby="dom-demo-title" hidden>
       <span class="eyebrow">JAVASCRIPT · DOM</span>
       <h2 id="dom-demo-title">1–2 тапсырма</h2>
+      <p class="dom-demo-intro">Нажимайте на элементы и смотрите, как JavaScript меняет страницу. Новый div находится в самом конце страницы.</p>
       <div class="dom-demo-grid">
         <div class="dom-demo-card">
+          <span class="demo-number">01 / ЭЛЕМЕНТЫ</span>
           <h3>Элементтермен жұмыс</h3>
-          <p id="greeting">Бұл мәтін JavaScript арқылы өзгереді.</p>
+          <p class="demo-label">Текст, изменённый по ID</p>
+          <p class="demo-result" id="greeting">Бұл мәтін JavaScript арқылы өзгереді.</p>
           <div class="old-element">Бұл элемент жойылады.</div>
+          <p class="demo-note" id="removed-status"></p>
+          <p class="demo-label">Нажмите на абзац</p>
           <div id="changeable-paragraph"></div>
         </div>
         <div class="dom-demo-card">
+          <span class="demo-number">02 / КЛАССЫ</span>
           <h3>Кластарды басқару</h3>
+          <p class="demo-label">Состояние элемента</p>
           <div class="class-target" id="class-target">active класын ауыстырыңыз</div>
           <button class="demo-button" id="toggle-active" type="button">active класын қосу / жою</button>
+          <p class="demo-label">Текущий список классов</p>
           <p class="class-list" id="class-list" aria-live="polite"></p>
         </div>
       </div>
     </section>
-    </div>
     <div class="profile-main" id="panel" hidden></div>
   </main>
 
@@ -62,8 +76,8 @@
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<script src="script.js?v=5"></script>
-<script src="dom-task.js?v=2"></script>
+<script src="script.js?v=6"></script>
+<script src="dom-task.js?v=4"></script>
 
 </body>
 </html>
