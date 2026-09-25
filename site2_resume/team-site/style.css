@@ -45,6 +45,7 @@ a { color:inherit; } button { font:inherit; } ::selection { background:#dce9de; 
 .tab:hover .tab-action span { transform:translate(3px,-3px); }
 .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 0 38px; border-top:1px solid var(--line); color:var(--muted); font-size:.75rem; }
 .back-link { display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--muted); font-size:.82rem; font-weight:600; transition:color .25s ease,transform .25s ease; }
+.back-link[hidden] { display:none; }
 .back-link:hover { color:var(--accent-dark); transform:translateX(-3px); }
 .profile-main { min-height:70vh; }
 .profile-hero { display:grid; grid-template-columns:minmax(250px,.8fr) 1.2fr; gap:clamp(40px,7vw,100px); align-items:center; padding:80px 0 100px; }

@@ -12,14 +12,16 @@
 <div class="site-shell">
   <header class="site-header page-enter">
     <a class="brand" href="index.html">team<span class="brand-dot">.</span></a>
-    <span class="header-caption">Знакомство с командой</span>
+    <span class="header-caption" id="header-caption">Знакомство с командой</span>
+    <a class="back-link" id="back-link" href="index.html" hidden><span aria-hidden="true">←</span> Все участники</a>
   </header>
 
   <main>
+    <div id="team-view">
     <section class="hero page-enter">
       <span class="eyebrow">НАША КОМАНДА</span>
       <h1>Люди, которые<br><span>создают идеи.</span></h1>
-      <p class="subtitle">Познакомьтесь с участниками проекта. У каждого — свой опыт, навыки и отдельная страница резюме.</p>
+      <p class="subtitle">Познакомьтесь с участниками проекта. У каждого — свой опыт, навыки и резюме на этом сайте.</p>
     </section>
 
     <section class="team-section reveal" aria-labelledby="team-heading">
@@ -51,6 +53,8 @@
         </div>
       </div>
     </section>
+    </div>
+    <div class="profile-main" id="panel" hidden></div>
   </main>
 
   <footer class="site-footer reveal"><span>Сделано с вниманием к деталям.</span><span>2026</span></footer>
@@ -58,8 +62,8 @@
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<script src="script.js?v=4"></script>
-<script src="dom-task.js"></script>
+<script src="script.js?v=5"></script>
+<script src="dom-task.js?v=2"></script>
 
 </body>
 </html>

@@ -1,25 +1,28 @@
-// Список участников и отдельные страницы резюме.
+// Список участников и резюме на одной странице index.html.
 // Информация о людях находится в data.js.
 
 const tabsEl = document.getElementById("tabs");
 const panelEl = document.getElementById("panel");
+const personParam = new URLSearchParams(location.search).get("person");
 
-if (tabsEl) {
+if (tabsEl && personParam === null) {
   document.getElementById("people-count").textContent = `${people.length} участника`;
   people.forEach((p, i) => {
     const link = document.createElement("a");
     link.className = "tab";
-    link.href = `profile.html?person=${i}`;
-    link.target = "_blank";
-    link.rel = "noopener";
-    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">↗</span></span></div>`;
+    link.href = `index.html?person=${i}`;
+    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">→</span></span></div>`;
     tabsEl.appendChild(link);
   });
 }
 
-if (panelEl) {
-  const personParam = new URLSearchParams(location.search).get("person");
-  const personIndex = personParam === null ? -1 : Number(personParam);
+if (panelEl && personParam !== null) {
+  document.getElementById("team-view").hidden = true;
+  document.getElementById("header-caption").hidden = true;
+  document.getElementById("back-link").hidden = false;
+  panelEl.hidden = false;
+
+  const personIndex = /^\d+$/.test(personParam) ? Number(personParam) : -1;
   const p = Number.isInteger(personIndex) ? people[personIndex] : undefined;
 
   if (!p) {
