@@ -4,24 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Наша команда</title>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
-<div class="board">
-  <h1>Наша команда</h1>
-  <p class="subtitle">Резюме и контакты трёх участников проекта.<br>Выберите вкладку, чтобы посмотреть профиль.</p>
-  <p class="index-label">index</p>
-  <div class="tabs" id="tabs"></div>
-</div>
+<div class="site-shell">
+  <header class="site-header page-enter">
+    <a class="brand" href="index.html">team<span class="brand-dot">.</span></a>
+    <span class="header-caption">Знакомство с командой</span>
+  </header>
 
-<div class="panel" id="panel"></div>
+  <main>
+    <section class="hero page-enter">
+      <span class="eyebrow">НАША КОМАНДА</span>
+      <h1>Люди, которые<br><span>создают идеи.</span></h1>
+      <p class="subtitle">Познакомьтесь с участниками проекта. У каждого — свой опыт, навыки и отдельная страница резюме.</p>
+    </section>
+
+    <section class="team-section reveal" aria-labelledby="team-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">УЧАСТНИКИ</span>
+          <h2 id="team-heading">Наша команда</h2>
+        </div>
+        <span class="people-count" id="people-count"></span>
+      </div>
+      <div class="tabs" id="tabs"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer reveal"><span>Сделано с вниманием к деталям.</span><span>2026</span></footer>
+</div>
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<!-- script.js — здесь логика вкладок, менять обычно не нужно -->
-<script src="script.js"></script>
+<script src="script.js?v=4"></script>
 
 </body>
 </html>

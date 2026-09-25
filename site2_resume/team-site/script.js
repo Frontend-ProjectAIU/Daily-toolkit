@@ -1,58 +1,67 @@
-// Логика вкладок. Обычно этот файл менять не нужно —
-// вся редактируемая информация находится в data.js
+// Список участников и отдельные страницы резюме.
+// Информация о людях находится в data.js.
 
 const tabsEl = document.getElementById("tabs");
 const panelEl = document.getElementById("panel");
 
-// Строим кнопки-вкладки на основе массива people из data.js
-people.forEach((p, i) => {
-  const btn = document.createElement("button");
-  btn.className = "tab" + (i === 0 ? " active" : "");
-  btn.innerHTML = `<img class="tab-photo" src="${p.photo}" alt="${p.name}"><span class="tab-info"><span class="tab-name">${p.name}</span><span class="tab-role">${p.role}</span></span>`;
-  btn.onclick = () => openPerson(i);
-  tabsEl.appendChild(btn);
-});
-
-function openPerson(i) {
-  const p = people[i];
-
-  // подсветка активной вкладки
-  document.querySelectorAll(".tab").forEach((btn, idx) => {
-    btn.classList.toggle("active", idx === i);
+if (tabsEl) {
+  document.getElementById("people-count").textContent = `${people.length} участника`;
+  people.forEach((p, i) => {
+    const link = document.createElement("a");
+    link.className = "tab";
+    link.href = `profile.html?person=${i}`;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">↗</span></span></div>`;
+    tabsEl.appendChild(link);
   });
+}
 
-  // Проверяем, это ли Аманкос
-  const isAmankos = p.name.includes("Аманқос") || p.name.includes("Аманкос");
+if (panelEl) {
+  const personParam = new URLSearchParams(location.search).get("person");
+  const personIndex = personParam === null ? -1 : Number(personParam);
+  const p = Number.isInteger(personIndex) ? people[personIndex] : undefined;
 
-  // заполняем и показываем панель с резюме
-  panelEl.innerHTML = `
-    <div class="head">
-      <img class="avatar" src="${p.photo}" alt="Фото: ${p.name}">
-      <div>
-        <h2>${p.name}</h2>
-        <p>${p.role}</p>
+  if (!p) {
+    panelEl.innerHTML = '<div class="not-found page-enter"><h1>Резюме не найдено</h1><p>Вернитесь к списку участников и выберите профиль.</p><a class="back-link" href="index.html">← Все участники</a></div>';
+  } else {
+    document.title = `${p.name} — резюме`;
+
+    const isAmankos = p.name.includes("Аманқос") || p.name.includes("Аманкос");
+    panelEl.innerHTML = `
+      <section class="profile-hero page-enter">
+        <div class="profile-photo-wrap"><img class="avatar" src="${p.photo}" alt="Фото: ${p.name}"></div>
+        <div class="profile-intro">
+          <span class="eyebrow">РЕЗЮМЕ УЧАСТНИКА</span>
+          <h1>${p.name}</h1>
+          <p class="profile-role">${p.role}</p>
+          <a class="contact-button" href="mailto:${p.email}">Написать письмо <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+      <div class="profile-content">
+        <section class="profile-section reveal"><span class="section-number">01</span><div><h2>Опыт работы</h2><p>${p.experience}</p></div></section>
+        <section class="profile-section reveal"><span class="section-number">02</span><div><h2>Образование</h2><p>${p.education}</p></div></section>
+        <section class="profile-section reveal"><span class="section-number">03</span><div><h2>Навыки</h2><div class="skills">${p.skills.map(s => `<span>${s}</span>`).join("")}</div></div></section>
+        <section class="profile-section reveal"><span class="section-number">04</span><div><h2>Контакты</h2><div class="contact-list"><a href="mailto:${p.email}">${p.email}</a><a href="tel:${p.phone.replace(/[^+\d]/g, "")}">${p.phone}</a></div></div></section>
       </div>
-    </div>
-    <div class="section">
-      <h3>Образование</h3>
-      <p>${p.education}</p>
-    </div>
-    <div class="section">
-      <h3>Опыт работы</h3>
-      <p>${p.experience}</p>
-    </div>
-    <div class="section">
-      <h3>Навыки</h3>
-      <div class="skills">${p.skills.map(s => `<span>${s}</span>`).join("")}</div>
-    </div>
-    <div class="section">
-      <h3>Контакты</h3>
-      <p>Email: ${p.email}</p>
-      <p>Телефон: ${p.phone}</p>
-    </div>
-    ${isAmankos ? '<button class="yuhu-btn" onclick="yuhuBoom()">🎉 Юху</button>' : ''}
-  `;
-  panelEl.style.display = "block";
+      ${isAmankos ? '<div class="special-action reveal"><button class="yuhu-btn" onclick="yuhuBoom()">🎉 Юху</button></div>' : ''}
+    `;
+  }
+}
+
+const revealItems = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" });
+  revealItems.forEach(item => observer.observe(item));
+} else {
+  revealItems.forEach(item => item.classList.add("is-visible"));
 }
 
 // ==========================================
