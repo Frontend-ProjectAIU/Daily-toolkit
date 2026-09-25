@@ -32,6 +32,25 @@
       </div>
       <div class="tabs" id="tabs"></div>
     </section>
+
+    <section class="dom-demo reveal" aria-labelledby="dom-demo-title">
+      <span class="eyebrow">JAVASCRIPT · DOM</span>
+      <h2 id="dom-demo-title">1–2 тапсырма</h2>
+      <div class="dom-demo-grid">
+        <div class="dom-demo-card">
+          <h3>Элементтермен жұмыс</h3>
+          <p id="greeting">Бұл мәтін JavaScript арқылы өзгереді.</p>
+          <div class="old-element">Бұл элемент жойылады.</div>
+          <div id="changeable-paragraph"></div>
+        </div>
+        <div class="dom-demo-card">
+          <h3>Кластарды басқару</h3>
+          <div class="class-target" id="class-target">active класын ауыстырыңыз</div>
+          <button class="demo-button" id="toggle-active" type="button">active класын қосу / жою</button>
+          <p class="class-list" id="class-list" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer reveal"><span>Сделано с вниманием к деталям.</span><span>2026</span></footer>
@@ -40,6 +59,7 @@
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
 <script src="script.js?v=4"></script>
+<script src="dom-task.js"></script>
 
 </body>
 </html>
