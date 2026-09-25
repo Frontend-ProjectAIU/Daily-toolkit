@@ -1,52 +1,93 @@
-// Демонстрация запускается только на экране заданий.
-if (!document.getElementById("dom-demo").hidden) {
-  // 1-тапсырма: DOM элементтерін өзгерту, қосу және жою.
-  document.getElementById("greeting").textContent = "Сәлем, әлем!";
+// 1-тапсырма: все изменения элементов запускаются действиями пользователя.
+if (!document.getElementById("task-1").hidden) {
+  const greeting = document.getElementById("greeting");
+  const greetingButton = document.getElementById("change-greeting");
 
-  const newDiv = document.createElement("div");
-  newDiv.className = "new-div";
-  newDiv.textContent = "Мен жаңа элементпін";
-  document.body.appendChild(newDiv);
-
-  document.querySelector(".old-element").remove();
-  document.getElementById("removed-status").textContent = "✓ Элемент .old-element удалён со страницы";
-
-  const changeableParagraph = document.createElement("p");
-  changeableParagraph.textContent = "Бұл ауыспалы абзац";
-  changeableParagraph.className = "changeable-paragraph";
-  changeableParagraph.tabIndex = 0;
-  changeableParagraph.setAttribute("role", "button");
-  document.getElementById("changeable-paragraph").appendChild(changeableParagraph);
-
-  function changeParagraphStyle() {
-    const changed = changeableParagraph.style.color !== "";
-    changeableParagraph.style.color = changed ? "" : "#fff";
-    changeableParagraph.style.fontSize = changed ? "" : "1.6rem";
-    changeableParagraph.style.backgroundColor = changed ? "" : "#3f5b49";
-  }
-
-  changeableParagraph.addEventListener("click", changeParagraphStyle);
-  changeableParagraph.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      changeParagraphStyle();
-    }
+  greetingButton.addEventListener("click", () => {
+    const shown = greeting.textContent === "Сәлем, әлем!";
+    greeting.textContent = shown ? "Здесь появится новый текст." : "Сәлем, әлем!";
+    greetingButton.textContent = shown ? "Показать «Сәлем, әлем!»" : "Вернуть исходный текст";
   });
 
-  // 2-тапсырма: active класын ауыстырып, барлық кластарды көрсету.
+  let newDiv = null;
+  const removeDivButton = document.getElementById("remove-div");
+  const newDivStatus = document.getElementById("new-div-status");
+
+  document.getElementById("add-div").addEventListener("click", () => {
+    if (!newDiv) {
+      newDiv = document.createElement("div");
+      newDiv.className = "new-div";
+      newDiv.textContent = "Мен жаңа элементпін";
+      document.body.appendChild(newDiv);
+      removeDivButton.disabled = false;
+      newDivStatus.textContent = "Новый div добавлен в конец body ↓";
+    }
+    newDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  removeDivButton.addEventListener("click", () => {
+    newDiv?.remove();
+    newDiv = null;
+    removeDivButton.disabled = true;
+    newDivStatus.textContent = "Новый div удалён. Его можно добавить снова.";
+  });
+
+  document.getElementById("remove-old").addEventListener("click", (event) => {
+    document.querySelector(".old-element").remove();
+    event.currentTarget.disabled = true;
+    document.getElementById("removed-status").textContent = "✓ Элемент .old-element удалён со страницы";
+  });
+
+  document.getElementById("create-paragraph").addEventListener("click", (event) => {
+    const container = document.getElementById("changeable-paragraph");
+    if (container.firstElementChild) {
+      container.firstElementChild.remove();
+      event.currentTarget.textContent = "Создать абзац";
+      return;
+    }
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "Бұл ауыспалы абзац";
+    paragraph.className = "changeable-paragraph";
+    paragraph.tabIndex = 0;
+    paragraph.setAttribute("role", "button");
+
+    function changeStyle() {
+      const changed = paragraph.style.color !== "";
+      paragraph.style.color = changed ? "" : "#fff";
+      paragraph.style.fontSize = changed ? "" : "1.6rem";
+      paragraph.style.backgroundColor = changed ? "" : "#3f5b49";
+    }
+
+    paragraph.addEventListener("click", changeStyle);
+    paragraph.addEventListener("keydown", (keyEvent) => {
+      if (keyEvent.key === "Enter" || keyEvent.key === " ") {
+        keyEvent.preventDefault();
+        changeStyle();
+      }
+    });
+
+    container.appendChild(paragraph);
+    event.currentTarget.textContent = "Удалить абзац";
+  });
+}
+
+// 2-тапсырма: переключение active и вывод всех классов.
+if (!document.getElementById("task-2").hidden) {
   const classTarget = document.getElementById("class-target");
   const classListOutput = document.getElementById("class-list");
+  const toggleButton = document.getElementById("toggle-active");
 
   function printClasses() {
     const classes = [...classTarget.classList];
     console.log("Элемент кластары:", classes);
     classListOutput.textContent = `Кластар: ${classes.join(", ") || "жоқ"}`;
-    document.getElementById("toggle-active").textContent = classTarget.classList.contains("active")
+    toggleButton.textContent = classTarget.classList.contains("active")
       ? "Убрать класс active"
       : "Добавить класс active";
   }
 
-  document.getElementById("toggle-active").addEventListener("click", () => {
+  toggleButton.addEventListener("click", () => {
     classTarget.classList.toggle("active");
     printClasses();
   });

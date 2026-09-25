@@ -5,25 +5,29 @@ const tabsEl = document.getElementById("tabs");
 const panelEl = document.getElementById("panel");
 const pageParams = new URLSearchParams(location.search);
 const personParam = pageParams.get("person");
-const showTasks = personParam === null && pageParams.get("view") === "tasks";
+const requestedView = pageParams.get("view");
+const showTask1 = personParam === null && (requestedView === "task1" || requestedView === "tasks");
+const showTask2 = personParam === null && requestedView === "task2";
 
-if (tabsEl && personParam === null && !showTasks) {
+if (tabsEl && personParam === null && !showTask1 && !showTask2) {
   document.getElementById("people-count").textContent = `${people.length} участника`;
   people.forEach((p, i) => {
     const link = document.createElement("a");
     link.className = "tab";
     link.href = `index.html?person=${i}`;
-    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">→</span></span></div>`;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.innerHTML = `<div class="card-photo-wrap"><img class="tab-photo" src="${p.photo}" alt="" loading="lazy"></div><div class="tab-info"><span class="tab-role">${p.role}</span><span class="tab-name">${p.name}</span><span class="tab-action">Посмотреть резюме <span aria-hidden="true">↗</span></span></div>`;
     tabsEl.appendChild(link);
   });
 }
 
-if (showTasks) {
+if (showTask1 || showTask2) {
   document.getElementById("team-view").hidden = true;
-  document.getElementById("dom-demo").hidden = false;
+  document.getElementById(showTask1 ? "task-1" : "task-2").hidden = false;
   document.getElementById("header-caption").hidden = true;
   document.getElementById("back-link").hidden = false;
-  document.title = "1–2 тапсырма — Наша команда";
+  document.title = `${showTask1 ? "1-тапсырма" : "2-тапсырма"} — Наша команда`;
 }
 
 if (panelEl && personParam !== null) {

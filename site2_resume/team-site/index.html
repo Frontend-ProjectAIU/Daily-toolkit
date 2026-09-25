@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Наша команда</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -35,34 +35,64 @@
       <div class="tabs" id="tabs"></div>
     </section>
 
-    <a class="task-link reveal" href="index.html?view=tasks">
-      <span class="eyebrow">JAVASCRIPT · DOM</span>
-      <strong>1–2 тапсырма</strong>
-      <span>Открыть задания <span aria-hidden="true">→</span></span>
-    </a>
+    <div class="task-links reveal">
+      <a class="task-link" href="index.html?view=task1" target="_blank" rel="noopener">
+        <span class="eyebrow">JAVASCRIPT · DOM</span>
+        <strong>1-тапсырма</strong>
+        <span>Элементы и текст <span aria-hidden="true">↗</span></span>
+      </a>
+      <a class="task-link" href="index.html?view=task2" target="_blank" rel="noopener">
+        <span class="eyebrow">JAVASCRIPT · DOM</span>
+        <strong>2-тапсырма</strong>
+        <span>Классы элементов <span aria-hidden="true">↗</span></span>
+      </a>
+    </div>
     </div>
 
-    <section class="dom-demo reveal" id="dom-demo" aria-labelledby="dom-demo-title" hidden>
+    <section class="dom-demo reveal" id="task-1" aria-labelledby="task-1-title" hidden>
       <span class="eyebrow">JAVASCRIPT · DOM</span>
-      <h2 id="dom-demo-title">1–2 тапсырма</h2>
-      <p class="dom-demo-intro">Нажимайте на элементы и смотрите, как JavaScript меняет страницу. Новый div находится в самом конце страницы.</p>
-      <div class="dom-demo-grid">
+      <h2 id="task-1-title">1-тапсырма</h2>
+      <p class="dom-demo-intro">Нажимайте на кнопки: текст появится, элементы добавятся или удалятся. На созданный абзац тоже можно нажать.</p>
+      <div class="dom-demo-grid task-one-grid">
         <div class="dom-demo-card">
-          <span class="demo-number">01 / ЭЛЕМЕНТЫ</span>
-          <h3>Элементтермен жұмыс</h3>
-          <p class="demo-label">Текст, изменённый по ID</p>
-          <p class="demo-result" id="greeting">Бұл мәтін JavaScript арқылы өзгереді.</p>
-          <div class="old-element">Бұл элемент жойылады.</div>
-          <p class="demo-note" id="removed-status"></p>
-          <p class="demo-label">Нажмите на абзац</p>
-          <div id="changeable-paragraph"></div>
+          <span class="demo-number">01 / ТЕКСТ</span>
+          <h3>Найти по ID и изменить</h3>
+          <p class="demo-result" id="greeting" aria-live="polite">Здесь появится новый текст.</p>
+          <button class="demo-button" id="change-greeting" type="button">Показать «Сәлем, әлем!»</button>
         </div>
         <div class="dom-demo-card">
-          <span class="demo-number">02 / КЛАССЫ</span>
+          <span class="demo-number">02 / ЭЛЕМЕНТЫ</span>
+          <h3>Добавить и удалить</h3>
+          <div class="demo-actions">
+            <button class="demo-button" id="add-div" type="button">Добавить новый div</button>
+            <button class="demo-button demo-button-secondary" id="remove-div" type="button" disabled>Удалить новый div</button>
+          </div>
+          <p class="demo-note" id="new-div-status" aria-live="polite">Новый div появится в конце страницы.</p>
+          <div class="old-element">Я — элемент с классом old-element.</div>
+          <button class="demo-button demo-button-secondary" id="remove-old" type="button">Удалить old-element</button>
+          <p class="demo-note" id="removed-status" aria-live="polite"></p>
+        </div>
+        <div class="dom-demo-card">
+          <span class="demo-number">03 / АБЗАЦ</span>
+          <h3>Создать и изменить</h3>
+          <button class="demo-button" id="create-paragraph" type="button">Создать абзац</button>
+          <p class="demo-note">После создания нажмите на абзац: изменятся цвет и размер текста.</p>
+          <div id="changeable-paragraph"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dom-demo reveal" id="task-2" aria-labelledby="task-2-title" hidden>
+      <span class="eyebrow">JAVASCRIPT · DOM</span>
+      <h2 id="task-2-title">2-тапсырма</h2>
+      <p class="dom-demo-intro">Нажмите на кнопку, чтобы добавить или удалить класс active. Список классов обновится ниже и в консоли браузера.</p>
+      <div class="dom-demo-grid task-two-grid">
+        <div class="dom-demo-card">
+          <span class="demo-number">01 / КЛАССЫ</span>
           <h3>Кластарды басқару</h3>
           <p class="demo-label">Состояние элемента</p>
           <div class="class-target" id="class-target">active класын ауыстырыңыз</div>
-          <button class="demo-button" id="toggle-active" type="button">active класын қосу / жою</button>
+          <button class="demo-button" id="toggle-active" type="button">Добавить класс active</button>
           <p class="demo-label">Текущий список классов</p>
           <p class="class-list" id="class-list" aria-live="polite"></p>
         </div>
@@ -76,8 +106,8 @@
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<script src="script.js?v=6"></script>
-<script src="dom-task.js?v=4"></script>
+<script src="script.js?v=7"></script>
+<script src="dom-task.js?v=5"></script>
 
 </body>
 </html>
