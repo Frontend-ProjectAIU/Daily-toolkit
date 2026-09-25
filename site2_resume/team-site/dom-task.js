@@ -80,7 +80,7 @@
 
   function printClasses() {
     const classes = [...classTarget.classList];
-    console.log("Элемент кластары:", classes);
+    console.log(`Элемент кластары: ${classes.join(", ") || "жоқ"}`);
     classListOutput.textContent = `Кластар: ${classes.join(", ") || "жоқ"}`;
     toggleButton.textContent = classTarget.classList.contains("active")
       ? "Убрать класс active"
