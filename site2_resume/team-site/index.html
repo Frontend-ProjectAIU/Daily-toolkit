@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Наша команда</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
 <div class="site-shell">
@@ -53,7 +54,8 @@
               <button class="demo-button" id="add-div" type="button">Добавить новый div</button>
               <button class="demo-button demo-button-secondary" id="remove-div" type="button" disabled>Удалить новый div</button>
             </div>
-            <p class="demo-note" id="new-div-status" aria-live="polite">Новый div появится в конце страницы.</p>
+            <p class="demo-note" id="new-div-status" aria-live="polite">Новый текст появится здесь после нажатия.</p>
+            <div id="new-div-container" aria-live="polite"></div>
             <div class="old-element">Я — элемент с классом old-element.</div>
             <button class="demo-button demo-button-secondary" id="remove-old" type="button">Удалить old-element</button>
             <p class="demo-note" id="removed-status" aria-live="polite"></p>
@@ -93,6 +95,6 @@
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
 <script src="script.js?v=8"></script>
-<script src="dom-task.js?v=6"></script>
+<script src="dom-task.js?v=7"></script>
 </body>
 </html>

@@ -12,17 +12,18 @@
   let newDiv = null;
   const removeDivButton = document.getElementById("remove-div");
   const newDivStatus = document.getElementById("new-div-status");
+  const newDivContainer = document.getElementById("new-div-container");
 
   document.getElementById("add-div").addEventListener("click", () => {
     if (!newDiv) {
       newDiv = document.createElement("div");
       newDiv.className = "new-div";
       newDiv.textContent = "Мен жаңа элементпін";
-      document.body.appendChild(newDiv);
+      newDivContainer.appendChild(newDiv);
       removeDivButton.disabled = false;
-      newDivStatus.textContent = "Новый div добавлен в конец body ↓";
+      newDivStatus.textContent = "Новый текст добавлен:";
+      console.log("Добавлен новый текст: Мен жаңа элементпін");
     }
-    newDiv.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
   removeDivButton.addEventListener("click", () => {
@@ -30,6 +31,7 @@
     newDiv = null;
     removeDivButton.disabled = true;
     newDivStatus.textContent = "Новый div удалён. Его можно добавить снова.";
+    console.log("Новый текст удалён");
   });
 
   document.getElementById("remove-old").addEventListener("click", (event) => {

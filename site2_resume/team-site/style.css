@@ -41,8 +41,7 @@ a { color:inherit; } button { font:inherit; } ::selection { background:#dce9de; 
 .demo-button-secondary:hover { background:#dce9de; }
 .demo-button:disabled { cursor:not-allowed; opacity:.45; }
 .dom-demo-card .class-list { margin:0; color:var(--muted); font-size:.85rem; overflow-wrap:anywhere; }
-.new-div { width:min(1120px,calc(100% - 48px)); margin:0 auto 38px; padding:24px 30px; border:2px solid #cad9ce; border-radius:16px; background:#eff3ed; color:var(--accent-dark); font-size:1.45rem; font-weight:700; }
-.new-div::before { display:block; margin-bottom:8px; content:"ЖАҢА DIV · BODY СОҢЫНДА"; font-size:.68rem; letter-spacing:.14em; }
+.new-div { margin:0 0 18px; padding:16px 18px; border:2px solid #cad9ce; border-radius:10px; background:#eff3ed; color:var(--accent-dark); font-size:1.05rem; font-weight:700; }
 .section-heading { display:flex; justify-content:space-between; align-items:end; margin-bottom:30px; }
 .section-heading h2 { margin:10px 0 0; font-size:clamp(1.75rem,3vw,2.4rem); letter-spacing:-.055em; font-weight:600; }
 .tabs { display:flex; align-items:stretch; gap:8px; overflow-x:auto; border-bottom:1px solid var(--line); scrollbar-width:thin; scroll-padding-inline:16px; }
