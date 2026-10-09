@@ -96,3 +96,84 @@
 
   printClasses();
 }
+
+// 3-тапсырма: таблица с переключаемым выделением строки и столбца.
+{
+  const form = document.getElementById("table-settings");
+  const container = document.getElementById("table-container");
+  const status = document.getElementById("table-status");
+  let selectedCell = null;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const rows = Number(document.getElementById("table-rows").value);
+    const columns = Number(document.getElementById("table-columns").value);
+    if (!Number.isInteger(rows) || !Number.isInteger(columns) || rows < 1 || columns < 1 || rows > 20 || columns > 20) {
+      status.textContent = "Введите целые числа от 1 до 20.";
+      return;
+    }
+
+    const table = document.createElement("table");
+    table.className = "interactive-table";
+    table.setAttribute("aria-label", `Таблица: ${rows} строк, ${columns} столбцов`);
+    const body = document.createElement("tbody");
+    for (let row = 0; row < rows; row++) {
+      const tr = document.createElement("tr");
+      for (let column = 0; column < columns; column++) {
+        const td = document.createElement("td");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = `${row + 1} : ${column + 1}`;
+        button.setAttribute("aria-label", `Строка ${row + 1}, столбец ${column + 1}`);
+        button.setAttribute("aria-pressed", "false");
+        button.dataset.row = row;
+        button.dataset.column = column;
+        td.appendChild(button);
+        tr.appendChild(td);
+      }
+      body.appendChild(tr);
+    }
+    table.appendChild(body);
+    container.replaceChildren(table);
+    selectedCell = null;
+    status.textContent = `Создана таблица: ${rows} строк × ${columns} столбцов.`;
+  });
+
+  container.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-row][data-column]");
+    if (!button || !container.contains(button)) return;
+    const table = container.querySelector("table");
+    const sameCell = selectedCell === button;
+    table.querySelectorAll(".is-selected-row, .is-selected-column").forEach((cell) => {
+      cell.classList.remove("is-selected-row", "is-selected-column");
+    });
+    if (selectedCell) selectedCell.setAttribute("aria-pressed", "false");
+    selectedCell = sameCell ? null : button;
+    if (selectedCell) {
+      const row = Number(button.dataset.row);
+      const column = Number(button.dataset.column);
+      [...table.rows[row].cells].forEach((cell) => cell.classList.add("is-selected-row"));
+      [...table.rows].forEach((tableRow) => tableRow.cells[column].classList.add("is-selected-column"));
+      button.setAttribute("aria-pressed", "true");
+      status.textContent = `Выделены строка ${row + 1} и столбец ${column + 1}.`;
+    } else {
+      status.textContent = "Выделение снято.";
+    }
+  });
+}
+
+// 4-тапсырма: переключатель темы с сохранением выбора.
+{
+  const toggle = document.getElementById("theme-toggle");
+  const status = document.getElementById("theme-status");
+  function setTheme(dark) {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    toggle.checked = dark;
+    status.textContent = dark ? "Сейчас включена тёмная тема." : "Сейчас включена светлая тема.";
+    try { localStorage.setItem("team-theme", dark ? "dark" : "light"); } catch (_) {}
+  }
+  let savedTheme = "light";
+  try { savedTheme = localStorage.getItem("team-theme") || "light"; } catch (_) {}
+  setTheme(savedTheme === "dark");
+  toggle.addEventListener("change", () => setTheme(toggle.checked));
+}

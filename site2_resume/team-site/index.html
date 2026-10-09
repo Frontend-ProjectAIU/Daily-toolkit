@@ -12,7 +12,10 @@
 <div class="site-shell">
   <header class="site-header page-enter">
     <a class="brand" href="index.html">team<span class="brand-dot">.</span></a>
-    <span class="header-caption">Знакомство с командой</span>
+    <nav class="header-links" aria-label="Разделы сайта">
+      <a href="api-lab.html">HTTP / CRUD ↗</a>
+      <span class="header-caption">Знакомство с командой</span>
+    </nav>
   </header>
 
   <main>
@@ -86,6 +89,38 @@
           </div>
         </div>
       </section>
+
+      <section class="dom-demo" id="task-3" role="tabpanel" aria-labelledby="tab-task3" tabindex="0" hidden>
+        <span class="eyebrow">JAVASCRIPT · DOM</span>
+        <h2>3-тапсырма · Таблица</h2>
+        <p class="dom-demo-intro">Задайте размер таблицы. Нажмите на ячейку, чтобы выделить её строку и столбец; нажмите ещё раз, чтобы снять выделение.</p>
+        <div class="dom-demo-card table-card">
+          <form class="table-settings" id="table-settings">
+            <label>Строки <input id="table-rows" type="number" min="1" max="20" value="5" required></label>
+            <label>Столбцы <input id="table-columns" type="number" min="1" max="20" value="5" required></label>
+            <button class="demo-button" type="submit">Создать таблицу</button>
+          </form>
+          <p class="demo-note" id="table-status" role="status">Выберите количество строк и столбцов от 1 до 20.</p>
+          <div class="table-scroll" id="table-container"></div>
+        </div>
+      </section>
+
+      <section class="dom-demo" id="task-4" role="tabpanel" aria-labelledby="tab-task4" tabindex="0" hidden>
+        <span class="eyebrow">JAVASCRIPT · DOM</span>
+        <h2>4-тапсырма · Тема</h2>
+        <p class="dom-demo-intro">Переключите тему сайта. Выбранный режим сохранится после обновления страницы.</p>
+        <div class="dom-demo-card theme-card">
+          <div>
+            <span class="demo-number">НАСТРОЙКА ОФОРМЛЕНИЯ</span>
+            <h3>Тёмная тема</h3>
+            <p class="demo-note" id="theme-status" role="status">Сейчас включена светлая тема.</p>
+          </div>
+          <label class="theme-switch">
+            <input id="theme-toggle" type="checkbox" role="switch" aria-label="Включить тёмную тему">
+            <span class="theme-switch-track" aria-hidden="true"></span>
+          </label>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -94,7 +129,7 @@
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<script src="script.js?v=8"></script>
-<script src="dom-task.js?v=7"></script>
+<script src="script.js?v=9"></script>
+<script src="dom-task.js?v=8"></script>
 </body>
 </html>
