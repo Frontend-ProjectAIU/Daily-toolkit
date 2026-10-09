@@ -1,3 +1,5 @@
+**Сайт проекта:** [Открыть сайт команды](https://frontend-projectaiu.github.io/Daily-toolkit/site2_resume/team-site/)
+
 Топта ВТ-24А:
 Сәрсенбайұлы Аманқос
 Парахат Медет
