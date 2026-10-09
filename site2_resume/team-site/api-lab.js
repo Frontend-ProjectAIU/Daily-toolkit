@@ -1,5 +1,12 @@
 const apiBase = "https://dummyjson.com";
-const defaultProductImage = "product-photo.jpg";
+const defaultProductImages = [
+  "product-photo.jpg",
+  ...Array.from({ length: 11 }, (_, index) => `photos/shrek/shrek-${String(index + 2).padStart(2, "0")}.jpg`)
+];
+
+function getDefaultProductImage(index) {
+  return defaultProductImages[index % defaultProductImages.length];
+}
 const list = document.getElementById("product-list");
 const listMessage = document.getElementById("product-message");
 const form = document.getElementById("product-form");
@@ -57,7 +64,7 @@ function renderProducts() {
     imageWrap.className = "product-image-wrap";
     const image = document.createElement("img");
     image.className = "product-image";
-    image.src = product.thumbnail || defaultProductImage;
+    image.src = product.thumbnail || getDefaultProductImage(Number(product.key) - 1);
     image.alt = `Изображение карточки: ${product.title}`;
     image.loading = "lazy";
     image.addEventListener("error", () => {
@@ -109,7 +116,7 @@ function openEditor(product = null) {
     titleInput.value = product.title;
     priceInput.value = product.price;
     descriptionInput.value = product.description;
-    if (product.thumbnail && product.thumbnail !== defaultProductImage && !product.blobUrl) imageUrlInput.value = product.thumbnail;
+    if (product.thumbnail && !defaultProductImages.includes(product.thumbnail) && !product.blobUrl) imageUrlInput.value = product.thumbnail;
   }
   form.hidden = false;
   form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -128,10 +135,10 @@ async function loadProducts() {
   const data = await sendRequest("GET", "/products?limit=12&select=title,price,thumbnail,description");
   if (!data) return;
   products.forEach(releaseImage);
-  products = data.products.map((product) => ({
+  products = data.products.map((product, index) => ({
     key: String(nextKey++), id: product.id, title: product.title,
     price: Number(product.price), description: product.description,
-    thumbnail: defaultProductImage, blobUrl: null, local: false
+    thumbnail: getDefaultProductImage(index), blobUrl: null, local: false
   }));
   listMessage.textContent = `Показано ${products.length} товаров.`;
   renderProducts();
@@ -170,7 +177,8 @@ form.addEventListener("submit", async (event) => {
   } else if (!product) {
     const data = await sendRequest("POST", "/products/add", body);
     if (!data) return;
-    products.unshift({ key: String(nextKey++), id: data.id, title, price, description, thumbnail: defaultProductImage, blobUrl: null, local: true });
+    const key = String(nextKey++);
+    products.unshift({ key, id: data.id, title, price, description, thumbnail: getDefaultProductImage(Number(key) - 1), blobUrl: null, local: true });
   }
 
   const target = product || products[0];
