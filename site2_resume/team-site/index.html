@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=8">
-<link rel="stylesheet" href="api-lab.css?v=4">
+<link rel="stylesheet" href="api-lab.css?v=5">
 </head>
 <body>
 <div class="site-shell">
@@ -121,65 +121,34 @@
       </section>
 
       <section class="dom-demo api-lab" id="task-5" role="tabpanel" aria-labelledby="tab-task5" tabindex="0" hidden>
-        <span class="eyebrow">HTTP · FAKE API</span>
-        <h2>Задание 5 · CRUD/API</h2>
-        <p class="dom-demo-intro">Загрузите товары, создайте свой, измените или удалите товар. После каждого запроса посмотрите метод и статус ответа.</p>
-        <a class="api-docs-link" href="https://dummyjson.com/docs/products" target="_blank" rel="noopener noreferrer">Документация DummyJSON ↗</a>
-
-        <div class="api-section">
-          <h3>Методы и коды ответа</h3>
-          <div class="method-grid">
-            <div class="method-card"><strong>GET</strong><span>Прочитать список товаров</span></div>
-            <div class="method-card"><strong>POST</strong><span>Создать товар</span></div>
-            <div class="method-card"><strong>PATCH</strong><span>Изменить часть товара</span></div>
-            <div class="method-card"><strong>DELETE</strong><span>Удалить товар</span></div>
+        <div class="shop-header">
+          <div>
+            <span class="eyebrow">ЗАДАНИЕ 5 · CRUD/API</span>
+            <h2>Товары</h2>
           </div>
-          <div class="status-guide">
-            <span><b>2xx</b> Успех</span><span><b>3xx</b> Перенаправление</span>
-            <span><b>4xx</b> Ошибка запроса</span><span><b>5xx</b> Ошибка сервера</span>
-          </div>
+          <button id="open-product-form" class="api-button" type="button">+ Добавить товар</button>
         </div>
+        <p class="shop-hint">Добавляйте, изменяйте и удаляйте товары. Изменения на этой странице сохраняются до перезагрузки.</p>
 
-        <div class="api-section">
-          <h3>CRUD с Fake API</h3>
-          <p class="api-note">DummyJSON имитирует POST, PATCH и DELETE: сервер отвечает на запрос, но не сохраняет изменения. На странице результат виден до перезагрузки.</p>
-          <div class="crud-layout">
-            <div class="crud-panel">
-              <div class="panel-heading"><h4>Товары</h4><button id="load-products" type="button" class="api-button secondary">Загрузить снова</button></div>
-              <p id="product-message" role="status">Загрузка товаров…</p>
-              <div id="product-list" class="product-list"></div>
-            </div>
-            <div class="crud-side">
-              <form id="product-form" class="crud-panel">
-                <h4 id="form-title">Создать товар</h4>
-                <label>Название <input id="product-title" type="text" maxlength="80" required placeholder="Например, Учебный блокнот"></label>
-                <label>Цена, $ <input id="product-price" type="number" min="0.01" max="100000" step="0.01" required placeholder="25.00"></label>
-                <div class="form-actions">
-                  <button class="api-button" id="save-product" type="submit">Создать через POST</button>
-                  <button class="api-button secondary" id="cancel-edit" type="button" hidden>Отмена</button>
-                </div>
-              </form>
-              <div class="crud-panel response-panel">
-                <h4>Последний ответ</h4>
-                <p id="request-status" role="status">Ожидание запроса</p>
-                <pre id="response-preview">Нажмите кнопку, чтобы отправить запрос.</pre>
-              </div>
-            </div>
+        <form id="product-form" class="product-editor" hidden>
+          <div class="editor-heading">
+            <h3 id="form-title">Добавить товар</h3>
+            <button id="cancel-edit" class="api-button secondary" type="button">Закрыть</button>
           </div>
-        </div>
+          <div class="editor-fields">
+            <label>Название <input id="product-title" type="text" maxlength="80" required placeholder="Например, Учебный блокнот"></label>
+            <label>Цена, $ <input id="product-price" type="number" min="0.01" max="100000" step="0.01" required placeholder="25.00"></label>
+            <label>Ссылка на картинку <input id="product-image-url" type="url" placeholder="https://example.com/image.jpg"></label>
+            <label>Или загрузить картинку <input id="product-image-file" type="file" accept="image/*"></label>
+            <label class="description-field">Описание <textarea id="product-description" rows="4" maxlength="500" required placeholder="Расскажите о товаре"></textarea></label>
+          </div>
+          <p class="editor-note">Для нового товара добавьте картинку по ссылке или загрузите файл. Загруженный файл останется только в этом браузере до перезагрузки.</p>
+          <p id="product-form-error" class="editor-error" role="alert" hidden></p>
+          <button class="api-button" id="save-product" type="submit">Добавить товар</button>
+        </form>
 
-        <div class="api-section">
-          <h3>Проверьте себя</h3>
-          <p class="api-note">Вопросы по HTTP-методам и категориям статус кодов.</p>
-          <form id="http-quiz" class="quiz-list">
-            <fieldset><legend>Каким методом обычно получают список данных?</legend><label><input type="radio" name="q1" value="GET"> GET</label><label><input type="radio" name="q1" value="POST"> POST</label><label><input type="radio" name="q1" value="DELETE"> DELETE</label></fieldset>
-            <fieldset><legend>Какой метод подходит для частичного изменения товара?</legend><label><input type="radio" name="q2" value="PATCH"> PATCH</label><label><input type="radio" name="q2" value="GET"> GET</label><label><input type="radio" name="q2" value="DELETE"> DELETE</label></fieldset>
-            <fieldset><legend>К какой категории относится статус 404?</legend><label><input type="radio" name="q3" value="2xx"> 2xx — успех</label><label><input type="radio" name="q3" value="4xx"> 4xx — ошибка запроса</label><label><input type="radio" name="q3" value="5xx"> 5xx — ошибка сервера</label></fieldset>
-            <fieldset><legend>Что означает категория 5xx?</legend><label><input type="radio" name="q4" value="client"> Ошибка запроса</label><label><input type="radio" name="q4" value="server"> Ошибка сервера</label><label><input type="radio" name="q4" value="redirect"> Перенаправление</label></fieldset>
-            <button class="api-button" type="submit">Проверить ответы</button>
-            <p id="quiz-result" role="status"></p>
-          </form>
-        </div>
+        <p id="product-message" class="shop-message" role="status">Загрузка товаров…</p>
+        <div id="product-list" class="product-list"></div>
       </section>
     </section>
   </main>
@@ -191,6 +160,6 @@
 <script src="data.js"></script>
 <script src="script.js?v=10"></script>
 <script src="dom-task.js?v=10"></script>
-<script src="api-lab.js?v=3"></script>
+<script src="api-lab.js?v=4"></script>
 </body>
 </html>
