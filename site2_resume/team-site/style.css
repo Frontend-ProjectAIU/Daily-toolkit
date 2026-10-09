@@ -1,5 +1,5 @@
 :root { --bg:#f8f7f3; --surface:#fff; --ink:#20241f; --muted:#737b72; --line:#e6e8e1; --accent:#65816f; --accent-dark:#3f5b49; }
-:root[data-theme="dark"] { color-scheme:dark; --bg:#141a17; --surface:#202a24; --ink:#eef4ee; --muted:#b4c4b7; --line:#3a4a3e; --accent:#a6d1ad; --accent-dark:#b7dfbc; }
+:root[data-theme="dark"] { color-scheme:dark; --bg:#111216; --surface:#1b1d23; --ink:#f1f2f5; --muted:#aeb1bb; --line:#343740; --accent:#aebcff; --accent-dark:#c2ccff; }
 * { box-sizing:border-box; }
 [hidden] { display:none !important; }
 html { scroll-behavior:smooth; }
@@ -66,20 +66,25 @@ a { color:inherit; } button { font:inherit; } ::selection { background:#dce9de; 
 .theme-switch input { position:absolute; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
 .theme-switch-track { display:block; width:100%; height:100%; border-radius:30px; background:#c8d3cb; transition:background .2s ease; }
 .theme-switch-track::after { content:""; position:absolute; top:5px; left:5px; width:32px; height:32px; border-radius:50%; background:white; box-shadow:0 2px 6px #0002; transition:transform .2s ease; }
-.theme-switch input:checked + .theme-switch-track { background:#60986d; }
+.theme-switch input:checked + .theme-switch-track { background:#6879b2; }
 .theme-switch input:checked + .theme-switch-track::after { transform:translateX(30px); }
 .theme-switch input:focus-visible + .theme-switch-track { outline:3px solid var(--accent); outline-offset:4px; }
 :root[data-theme="dark"] .dom-demo-card, :root[data-theme="dark"] .profile-main { color:var(--ink); }
-:root[data-theme="dark"] .demo-result, :root[data-theme="dark"] .new-div, :root[data-theme="dark"] .old-element, :root[data-theme="dark"] .class-target, :root[data-theme="dark"] .changeable-paragraph, :root[data-theme="dark"] .skills span { background:#2b392f; border-color:var(--line); color:var(--ink); }
-:root[data-theme="dark"] .demo-button { background:#567b5e; color:white; }
-:root[data-theme="dark"] .demo-button-secondary { background:#2d4033; border:1px solid var(--line); }
-:root[data-theme="dark"] .class-target.active { background:#567b5e; border-color:#78a683; }
+:root[data-theme="dark"] .demo-result, :root[data-theme="dark"] .new-div, :root[data-theme="dark"] .old-element, :root[data-theme="dark"] .class-target, :root[data-theme="dark"] .changeable-paragraph, :root[data-theme="dark"] .skills span { background:#272a32; border-color:var(--line); color:var(--ink); }
+:root[data-theme="dark"] .demo-button { background:#52649e; color:white; }
+:root[data-theme="dark"] .demo-button-secondary { background:#292d38; border:1px solid var(--line); }
+:root[data-theme="dark"] .demo-button:not(.demo-button-secondary):hover { background:#6879b2; }
+:root[data-theme="dark"] .demo-button-secondary:hover { background:#343949; }
+:root[data-theme="dark"] .class-target.active { background:#52649e; border-color:#7789c5; }
 :root[data-theme="dark"] .profile-section p, :root[data-theme="dark"] .contact-list a { color:var(--muted); }
-:root[data-theme="dark"] .interactive-table td { background:#344437; }
-:root[data-theme="dark"] .interactive-table th { background:#3d5141; }
-:root[data-theme="dark"] .interactive-table .is-selected-row, :root[data-theme="dark"] .interactive-table .is-selected-column { background:#4d7d57; }
+:root[data-theme="dark"] .interactive-table td { background:#292d36; }
+:root[data-theme="dark"] .interactive-table th { background:#343946; }
+:root[data-theme="dark"] .interactive-table .is-selected-row, :root[data-theme="dark"] .interactive-table .is-selected-column { background:#536596; }
 :root[data-theme="dark"] .interactive-table button { color:white; }
-:root[data-theme="dark"] .contact-button { background:#567b5e; color:white; }
+:root[data-theme="dark"] .contact-button { background:#52649e; color:white; }
+:root[data-theme="dark"] .contact-button:hover { background:#6879b2; }
+:root[data-theme="dark"] .profile-photo-wrap { background:#292d36; }
+:root[data-theme="dark"] ::selection { background:#52649e; color:white; }
 :root[data-theme="dark"] .yuhu-btn { background:var(--surface); color:var(--ink); }
 .section-heading { display:flex; justify-content:space-between; align-items:end; margin-bottom:30px; }
 .section-heading h2 { margin:10px 0 0; font-size:clamp(1.75rem,3vw,2.4rem); letter-spacing:-.055em; font-weight:600; }

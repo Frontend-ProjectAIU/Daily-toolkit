@@ -58,7 +58,7 @@
       const changed = paragraph.style.color !== "";
       paragraph.style.color = changed ? "" : "#fff";
       paragraph.style.fontSize = changed ? "" : "1.6rem";
-      paragraph.style.backgroundColor = changed ? "" : "#3f5b49";
+      paragraph.style.backgroundColor = changed ? "" : (document.documentElement.dataset.theme === "dark" ? "#52649e" : "#3f5b49");
     }
 
     paragraph.addEventListener("click", changeStyle);

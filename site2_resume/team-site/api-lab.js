@@ -55,13 +55,32 @@ function renderProducts() {
   for (const product of products) {
     const item = document.createElement("article");
     item.className = "product-item";
+    const imageWrap = document.createElement("div");
+    imageWrap.className = "product-image-wrap";
+    const image = document.createElement("img");
+    image.className = "product-image";
+    image.src = product.thumbnail || "product-placeholder.svg";
+    image.alt = product.thumbnail ? `Изображение товара: ${product.title}` : "Изображение товара отсутствует";
+    image.loading = "lazy";
+    image.addEventListener("error", () => {
+      image.onerror = null;
+      image.src = "product-placeholder.svg";
+      image.alt = "Изображение товара отсутствует";
+    }, { once: true });
+    imageWrap.appendChild(image);
     const info = document.createElement("div");
     info.className = "product-info";
     const name = document.createElement("strong");
     name.textContent = product.title;
-    const detail = document.createElement("small");
-    detail.textContent = `#${product.id} · $${product.price.toFixed(2)}${product.local ? " · только на этой странице" : ""}`;
-    info.append(name, detail);
+    const price = document.createElement("span");
+    price.className = "product-price";
+    price.textContent = `$${product.price.toFixed(2)}`;
+    info.append(name, price);
+    if (product.local) {
+      const note = document.createElement("small");
+      note.textContent = "Только на этой странице";
+      info.appendChild(note);
+    }
 
     const actions = document.createElement("div");
     actions.className = "product-actions";
@@ -77,7 +96,7 @@ function renderProducts() {
     remove.dataset.key = product.key;
     remove.textContent = "Удалить";
     actions.append(edit, remove);
-    item.append(info, actions);
+    item.append(imageWrap, info, actions);
     list.appendChild(item);
   }
   if (!products.length) listMessage.textContent = "Список пуст. Создайте товар или загрузите товары снова.";
@@ -93,11 +112,11 @@ function resetForm() {
 
 async function loadProducts() {
   listMessage.textContent = "Загрузка товаров…";
-  const data = await sendRequest("GET", "/products?limit=8&select=title,price");
+  const data = await sendRequest("GET", "/products?limit=8&select=title,price,thumbnail");
   if (!data) return;
   products = data.products.map((product) => ({
     key: String(nextKey++), id: product.id, title: product.title,
-    price: Number(product.price), local: false
+    price: Number(product.price), thumbnail: product.thumbnail, local: false
   }));
   resetForm();
   listMessage.textContent = `Загружено ${products.length} товаров. Выберите действие или создайте новый.`;
@@ -117,7 +136,7 @@ form.addEventListener("submit", async (event) => {
   if (editKey === null) {
     const data = await sendRequest("POST", "/products/add", { title, price });
     if (!data) return;
-    products.unshift({ key: String(nextKey++), id: data.id, title, price, local: true });
+    products.unshift({ key: String(nextKey++), id: data.id, title, price, thumbnail: null, local: true });
     listMessage.textContent = "Товар создан через POST. DummyJSON не хранит его на сервере.";
   } else {
     const product = products.find((item) => item.key === editKey);
