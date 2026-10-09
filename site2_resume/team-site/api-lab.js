@@ -1,4 +1,5 @@
 const apiBase = "https://dummyjson.com";
+const defaultProductImage = "product-photo.jpg";
 const list = document.getElementById("product-list");
 const listMessage = document.getElementById("product-message");
 const form = document.getElementById("product-form");
@@ -56,8 +57,8 @@ function renderProducts() {
     imageWrap.className = "product-image-wrap";
     const image = document.createElement("img");
     image.className = "product-image";
-    image.src = product.thumbnail || "product-placeholder.svg";
-    image.alt = product.thumbnail ? `Изображение товара: ${product.title}` : "Изображение товара отсутствует";
+    image.src = product.thumbnail || defaultProductImage;
+    image.alt = `Изображение карточки: ${product.title}`;
     image.loading = "lazy";
     image.addEventListener("error", () => {
       image.src = "product-placeholder.svg";
@@ -108,7 +109,7 @@ function openEditor(product = null) {
     titleInput.value = product.title;
     priceInput.value = product.price;
     descriptionInput.value = product.description;
-    if (product.thumbnail && !product.blobUrl) imageUrlInput.value = product.thumbnail;
+    if (product.thumbnail && product.thumbnail !== defaultProductImage && !product.blobUrl) imageUrlInput.value = product.thumbnail;
   }
   form.hidden = false;
   form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -130,7 +131,7 @@ async function loadProducts() {
   products = data.products.map((product) => ({
     key: String(nextKey++), id: product.id, title: product.title,
     price: Number(product.price), description: product.description,
-    thumbnail: product.thumbnail, blobUrl: null, local: false
+    thumbnail: defaultProductImage, blobUrl: null, local: false
   }));
   listMessage.textContent = `Показано ${products.length} товаров.`;
   renderProducts();
@@ -154,11 +155,6 @@ form.addEventListener("submit", async (event) => {
     formError.hidden = false;
     return;
   }
-  if (!product && !imageUrl && !imageFile) {
-    formError.textContent = "Добавьте картинку по ссылке или загрузите файл.";
-    formError.hidden = false;
-    return;
-  }
   if (imageFile && (!imageFile.type.startsWith("image/") || imageFile.size > 10 * 1024 * 1024)) {
     formError.textContent = "Выберите картинку размером до 10 МБ.";
     formError.hidden = false;
@@ -174,7 +170,7 @@ form.addEventListener("submit", async (event) => {
   } else if (!product) {
     const data = await sendRequest("POST", "/products/add", body);
     if (!data) return;
-    products.unshift({ key: String(nextKey++), id: data.id, title, price, description, thumbnail: null, blobUrl: null, local: true });
+    products.unshift({ key: String(nextKey++), id: data.id, title, price, description, thumbnail: defaultProductImage, blobUrl: null, local: true });
   }
 
   const target = product || products[0];
