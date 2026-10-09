@@ -1,4 +1,6 @@
-**Сайт проекта:** [Открыть сайт команды](https://frontend-projectaiu.github.io/Daily-toolkit/site2_resume/team-site/)
+Сайт проекта: [Открыть сайт команды](https://frontend-projectaiu.github.io/Daily-toolkit/site2_resume/team-site/)
+
+Сайтка онай доступ болуы ушын бэйби
 
 Топта ВТ-24А:
 Сәрсенбайұлы Аманқос
