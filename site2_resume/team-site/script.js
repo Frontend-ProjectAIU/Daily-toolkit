@@ -7,12 +7,14 @@ const task1El = document.getElementById("task-1");
 const task2El = document.getElementById("task-2");
 const task3El = document.getElementById("task-3");
 const task4El = document.getElementById("task-4");
+const task5El = document.getElementById("task-5");
 const tabDefinitions = [
   ...people.map((person, index) => ({ key: `person-${index}`, label: person.name, panel: "panel" })),
   { key: "task1", label: "Задание 1", panel: "task-1" },
   { key: "task2", label: "Задание 2", panel: "task-2" },
   { key: "task3", label: "Задание 3", panel: "task-3" },
-  { key: "task4", label: "Задание 4", panel: "task-4" }
+  { key: "task4", label: "Задание 4", panel: "task-4" },
+  { key: "task5", label: "Задание 5 CRUD/API", panel: "task-5" }
 ];
 
 document.getElementById("people-count").textContent = `${people.length} участника`;
@@ -68,7 +70,7 @@ function keyFromUrl() {
   if (person !== null && /^\d+$/.test(person) && people[Number(person)]) {
     return `person-${Number(person)}`;
   }
-  if (["task2", "task3", "task4"].includes(params.get("view"))) return params.get("view");
+  if (["task2", "task3", "task4", "task5"].includes(params.get("view"))) return params.get("view");
   if (params.get("view") === "task1" || params.get("view") === "tasks") return "task1";
   return tabDefinitions[0].key;
 }
@@ -82,6 +84,7 @@ function selectTab(key, updateUrl = false) {
   task2El.hidden = selected.key !== "task2";
   task3El.hidden = selected.key !== "task3";
   task4El.hidden = selected.key !== "task4";
+  task5El.hidden = selected.key !== "task5";
 
   if (isProfile) {
     const personIndex = Number(selected.key.slice("person-".length));

@@ -53,11 +53,12 @@ a { color:inherit; } button { font:inherit; } ::selection { background:#dce9de; 
 .table-settings .demo-button { margin:0; }
 .table-scroll { max-width:100%; overflow:auto; }
 .interactive-table { border-collapse:separate; border-spacing:4px; margin-top:14px; }
-.interactive-table td { min-width:70px; padding:0; border-radius:8px; background:#eff3ed; transition:background .15s ease; }
-.interactive-table td.is-selected-row { background:#d7e9d7; }
-.interactive-table td.is-selected-column { background:#bad7c0; }
-.interactive-table td.is-selected-row.is-selected-column { background:#7fb18b; }
-.interactive-table button { width:100%; min-height:48px; padding:8px; border:0; background:transparent; color:#253b2b; cursor:pointer; font:inherit; font-weight:700; }
+.interactive-table th, .interactive-table td { min-width:84px; height:48px; padding:0 10px; border-radius:8px; background:#eff3ed; text-align:center; font-weight:700; transition:background .15s ease; }
+.interactive-table th { background:#dce9de; }
+.interactive-table .is-selected-row { background:#b8d9bc; }
+.interactive-table .is-selected-column { background:#b8d9bc; }
+.interactive-table button { width:100%; min-height:48px; padding:8px; border:0; background:transparent; color:#253b2b; cursor:pointer; font:inherit; font-weight:800; }
+.interactive-table button[aria-pressed="true"] { text-decoration:underline; text-underline-offset:4px; }
 .interactive-table button:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
 .theme-card { min-height:220px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .theme-card h3 { margin-bottom:12px; }
@@ -75,9 +76,8 @@ a { color:inherit; } button { font:inherit; } ::selection { background:#dce9de; 
 :root[data-theme="dark"] .class-target.active { background:#567b5e; border-color:#78a683; }
 :root[data-theme="dark"] .profile-section p, :root[data-theme="dark"] .contact-list a { color:var(--muted); }
 :root[data-theme="dark"] .interactive-table td { background:#344437; }
-:root[data-theme="dark"] .interactive-table td.is-selected-row { background:#426f4b; }
-:root[data-theme="dark"] .interactive-table td.is-selected-column { background:#4d7d57; }
-:root[data-theme="dark"] .interactive-table td.is-selected-row.is-selected-column { background:#639c6b; }
+:root[data-theme="dark"] .interactive-table th { background:#3d5141; }
+:root[data-theme="dark"] .interactive-table .is-selected-row, :root[data-theme="dark"] .interactive-table .is-selected-column { background:#4d7d57; }
 :root[data-theme="dark"] .interactive-table button { color:white; }
 :root[data-theme="dark"] .contact-button { background:#567b5e; color:white; }
 :root[data-theme="dark"] .yuhu-btn { background:var(--surface); color:var(--ink); }

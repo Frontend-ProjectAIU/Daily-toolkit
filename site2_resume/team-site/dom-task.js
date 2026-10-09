@@ -97,12 +97,12 @@
   printClasses();
 }
 
-// 3-тапсырма: таблица с переключаемым выделением строки и столбца.
+// 3-тапсырма: строка и столбец выбираются отдельно через заголовки.
 {
   const form = document.getElementById("table-settings");
   const container = document.getElementById("table-container");
   const status = document.getElementById("table-status");
-  let selectedCell = null;
+  let selectedHeader = null;
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -116,46 +116,73 @@
     const table = document.createElement("table");
     table.className = "interactive-table";
     table.setAttribute("aria-label", `Таблица: ${rows} строк, ${columns} столбцов`);
+    const head = document.createElement("thead");
+    const headingRow = document.createElement("tr");
+    const corner = document.createElement("th");
+    corner.scope = "col";
+    corner.textContent = "№";
+    headingRow.appendChild(corner);
+    for (let column = 0; column < columns; column++) {
+      const th = document.createElement("th");
+      th.scope = "col";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = `Столбец ${column + 1}`;
+      button.dataset.select = "column";
+      button.dataset.index = column;
+      button.setAttribute("aria-pressed", "false");
+      th.appendChild(button);
+      headingRow.appendChild(th);
+    }
+    head.appendChild(headingRow);
+    table.appendChild(head);
     const body = document.createElement("tbody");
     for (let row = 0; row < rows; row++) {
       const tr = document.createElement("tr");
+      const rowHeading = document.createElement("th");
+      rowHeading.scope = "row";
+      const rowButton = document.createElement("button");
+      rowButton.type = "button";
+      rowButton.textContent = `Строка ${row + 1}`;
+      rowButton.dataset.select = "row";
+      rowButton.dataset.index = row;
+      rowButton.setAttribute("aria-pressed", "false");
+      rowHeading.appendChild(rowButton);
+      tr.appendChild(rowHeading);
       for (let column = 0; column < columns; column++) {
         const td = document.createElement("td");
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = `${row + 1} : ${column + 1}`;
-        button.setAttribute("aria-label", `Строка ${row + 1}, столбец ${column + 1}`);
-        button.setAttribute("aria-pressed", "false");
-        button.dataset.row = row;
-        button.dataset.column = column;
-        td.appendChild(button);
+        td.textContent = `${row + 1} : ${column + 1}`;
         tr.appendChild(td);
       }
       body.appendChild(tr);
     }
     table.appendChild(body);
     container.replaceChildren(table);
-    selectedCell = null;
+    selectedHeader = null;
     status.textContent = `Создана таблица: ${rows} строк × ${columns} столбцов.`;
   });
 
   container.addEventListener("click", (event) => {
-    const button = event.target.closest("button[data-row][data-column]");
+    const button = event.target.closest("button[data-select][data-index]");
     if (!button || !container.contains(button)) return;
     const table = container.querySelector("table");
-    const sameCell = selectedCell === button;
+    const sameHeader = selectedHeader === button;
     table.querySelectorAll(".is-selected-row, .is-selected-column").forEach((cell) => {
       cell.classList.remove("is-selected-row", "is-selected-column");
     });
-    if (selectedCell) selectedCell.setAttribute("aria-pressed", "false");
-    selectedCell = sameCell ? null : button;
-    if (selectedCell) {
-      const row = Number(button.dataset.row);
-      const column = Number(button.dataset.column);
-      [...table.rows[row].cells].forEach((cell) => cell.classList.add("is-selected-row"));
-      [...table.rows].forEach((tableRow) => tableRow.cells[column].classList.add("is-selected-column"));
+    if (selectedHeader) selectedHeader.setAttribute("aria-pressed", "false");
+    selectedHeader = sameHeader ? null : button;
+    if (selectedHeader) {
+      const index = Number(button.dataset.index);
+      if (button.dataset.select === "row") {
+        [...table.tBodies[0].rows[index].cells].forEach((cell) => cell.classList.add("is-selected-row"));
+        status.textContent = `Выделена только строка ${index + 1}.`;
+      } else {
+        table.tHead.rows[0].cells[index + 1].classList.add("is-selected-column");
+        [...table.tBodies[0].rows].forEach((row) => row.cells[index + 1].classList.add("is-selected-column"));
+        status.textContent = `Выделен только столбец ${index + 1}.`;
+      }
       button.setAttribute("aria-pressed", "true");
-      status.textContent = `Выделены строка ${row + 1} и столбец ${column + 1}.`;
     } else {
       status.textContent = "Выделение снято.";
     }

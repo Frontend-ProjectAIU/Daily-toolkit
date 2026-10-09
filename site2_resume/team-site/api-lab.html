@@ -1,96 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTTP и CRUD — Наша команда</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="api-lab.css?v=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=index.html?view=task5">
+  <title>Переход к заданию 5</title>
 </head>
 <body>
-<div class="api-shell">
-  <header class="api-header">
-    <a class="api-brand" href="index.html">team<span>.</span></a>
-    <a class="back-home" href="index.html">← На страницу команды</a>
-  </header>
-
-  <main>
-    <section class="api-hero">
-      <span class="eyebrow">ОТДЕЛЬНАЯ СТРАНИЦА · ТОТ ЖЕ РЕПОЗИТОРИЙ</span>
-      <h1>HTTP-запросы<br>и CRUD</h1>
-      <p>Практика с фейковым API: загрузите товары, создайте свой, измените название или удалите товар. После каждого запроса смотрите метод и статус ответа.</p>
-      <a href="https://dummyjson.com/docs/products" target="_blank" rel="noopener noreferrer">Документация DummyJSON ↗</a>
-    </section>
-
-    <section class="api-section" aria-labelledby="methods-title">
-      <div class="section-title">
-        <span class="eyebrow">01 / ТЕОРИЯ</span>
-        <h2 id="methods-title">Методы и коды ответа</h2>
-      </div>
-      <div class="method-grid">
-        <div class="method-card"><strong>GET</strong><span>Прочитать список товаров</span></div>
-        <div class="method-card"><strong>POST</strong><span>Создать товар</span></div>
-        <div class="method-card"><strong>PATCH</strong><span>Изменить часть товара</span></div>
-        <div class="method-card"><strong>DELETE</strong><span>Удалить товар</span></div>
-      </div>
-      <div class="status-guide">
-        <span><b>2xx</b> Успех</span>
-        <span><b>3xx</b> Перенаправление</span>
-        <span><b>4xx</b> Ошибка запроса</span>
-        <span><b>5xx</b> Ошибка сервера</span>
-      </div>
-    </section>
-
-    <section class="api-section" aria-labelledby="crud-title">
-      <div class="section-title">
-        <span class="eyebrow">02 / ПРАКТИКА</span>
-        <h2 id="crud-title">CRUD с Fake API</h2>
-        <p>DummyJSON имитирует POST, PATCH и DELETE: сервер отвечает на запрос, но не сохраняет изменения. На этой странице результат виден до перезагрузки.</p>
-      </div>
-      <div class="crud-layout">
-        <div class="crud-panel">
-          <div class="panel-heading"><h3>Товары</h3><button id="load-products" type="button" class="api-button secondary">Загрузить снова</button></div>
-          <p id="product-message" role="status">Загрузка товаров…</p>
-          <div id="product-list" class="product-list"></div>
-        </div>
-        <aside class="crud-side">
-          <form id="product-form" class="crud-panel">
-            <h3 id="form-title">Создать товар</h3>
-            <label>Название <input id="product-title" type="text" maxlength="80" required placeholder="Например, Учебный блокнот"></label>
-            <label>Цена, $ <input id="product-price" type="number" min="0.01" max="100000" step="0.01" required placeholder="25.00"></label>
-            <div class="form-actions">
-              <button class="api-button" id="save-product" type="submit">Создать через POST</button>
-              <button class="api-button secondary" id="cancel-edit" type="button" hidden>Отмена</button>
-            </div>
-          </form>
-          <div class="crud-panel response-panel">
-            <h3>Последний ответ</h3>
-            <p id="request-status" role="status">Ожидание запроса</p>
-            <pre id="response-preview">Нажмите кнопку, чтобы отправить запрос.</pre>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="api-section" aria-labelledby="quiz-title">
-      <div class="section-title">
-        <span class="eyebrow">03 / ВОПРОСЫ</span>
-        <h2 id="quiz-title">Проверьте себя</h2>
-        <p>Вопросы по HTTP-методам и категориям статус кодов.</p>
-      </div>
-      <form id="http-quiz" class="quiz-list">
-        <fieldset><legend>Каким методом обычно получают список данных?</legend><label><input type="radio" name="q1" value="GET"> GET</label><label><input type="radio" name="q1" value="POST"> POST</label><label><input type="radio" name="q1" value="DELETE"> DELETE</label></fieldset>
-        <fieldset><legend>Какой метод подходит для частичного изменения товара?</legend><label><input type="radio" name="q2" value="PATCH"> PATCH</label><label><input type="radio" name="q2" value="GET"> GET</label><label><input type="radio" name="q2" value="DELETE"> DELETE</label></fieldset>
-        <fieldset><legend>К какой категории относится статус 404?</legend><label><input type="radio" name="q3" value="2xx"> 2xx — успех</label><label><input type="radio" name="q3" value="4xx"> 4xx — ошибка запроса</label><label><input type="radio" name="q3" value="5xx"> 5xx — ошибка сервера</label></fieldset>
-        <fieldset><legend>Что означает категория 5xx?</legend><label><input type="radio" name="q4" value="client"> Ошибка запроса</label><label><input type="radio" name="q4" value="server"> Ошибка сервера</label><label><input type="radio" name="q4" value="redirect"> Перенаправление</label></fieldset>
-        <button class="api-button" type="submit">Проверить ответы</button>
-        <p id="quiz-result" role="status"></p>
-      </form>
-    </section>
-  </main>
-  <footer class="api-footer">Учебный проект · <a href="index.html">Наша команда</a></footer>
-</div>
-<script src="api-lab.js?v=1"></script>
+  <p><a href="index.html?view=task5">Открыть задание 5 CRUD/API</a></p>
 </body>
 </html>
