@@ -1,7 +1,7 @@
 Сайт проекта: [Открыть сайт команды](https://frontend-projectaiu.github.io/Daily-toolkit/site2_resume/team-site/)
 
 Сайтка онай доступ болуы ушын бэйби
-
+df
 Топта ВТ-24А:
 Сәрсенбайұлы Аманқос
 Парахат Медет
