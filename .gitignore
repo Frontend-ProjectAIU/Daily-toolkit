@@ -6,7 +6,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Логиfdfdfd
+# Логи
 *.log
 
 # Локальные настройки и секреты
@@ -17,6 +17,9 @@ Thumbs.db
 # Временные файлы и кэш
 *.tmp
 *.swp
+*.bak
+*.orig
+*~
 .cache/
 __pycache__/
 *.py[cod]

@@ -1,8 +1,8 @@
 # Sets the author for future commits in this repository only.
 # Does not change existing commits or the account used for git push.
 param(
-    [string]$Name = 'Olzhas37',
-    [string]$Email = '199829045+Olzhas37@users.noreply.github.com'
+    [string]$Name = 'shaktybaymanas',
+    [string]$Email = 'shaktybaymanas@gmail.com'
 )
 
 $ErrorActionPreference = 'Stop'
