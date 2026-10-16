@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=8">
 <link rel="stylesheet" href="api-lab.css?v=6">
+<link rel="stylesheet" href="users-lab.css?v=1">
 </head>
 <body>
 <div class="site-shell">
@@ -175,6 +176,56 @@
         <p id="product-message" class="shop-message" role="status">Загрузка товаров…</p>
         <div id="product-list" class="product-list"></div>
       </section>
+
+      <section class="dom-demo users-lab" id="task-6" role="tabpanel" aria-labelledby="tab-task6" tabindex="0" hidden>
+        <span class="eyebrow">ЗАДАНИЕ 6 · GET /users/:id</span>
+        <h2>Найти автора по ID</h2>
+        <p class="dom-demo-intro">Введите ID пользователя. После запроса появится его карточка. Нажмите на ник, чтобы увидеть подробную информацию.</p>
+        <form class="users-controls" id="user-id-form">
+          <label for="user-id-input">ID пользователя</label>
+          <input id="user-id-input" type="number" min="1" step="1" value="1" required>
+          <button type="submit">GET пользователя</button>
+        </form>
+        <p class="users-status" id="user-id-status" role="status" aria-live="polite">Введите ID и нажмите кнопку.</p>
+        <div class="users-grid" id="user-id-result"></div>
+      </section>
+
+      <section class="dom-demo users-lab" id="task-7" role="tabpanel" aria-labelledby="tab-task7" tabindex="0" hidden>
+        <span class="eyebrow">ЗАДАНИЕ 7 · ФИЛЬТР</span>
+        <h2>Фильтр пользователей</h2>
+        <p class="dom-demo-intro">Ищите по имени или нику и выбирайте пол. Карточки обновляются сразу; ник открывает подробности.</p>
+        <div class="users-controls">
+          <label for="user-search">Имя или ник</label>
+          <input id="user-search" type="search" placeholder="Например, Emily">
+          <label for="user-gender">Пол</label>
+          <select id="user-gender"><option value="all">Все</option><option value="female">Женщины</option><option value="male">Мужчины</option></select>
+          <button id="user-filter-reset" type="button">Сбросить</button>
+        </div>
+        <p class="users-status" id="user-filter-status" role="status" aria-live="polite">Загрузка пользователей…</p>
+        <div class="users-grid" id="user-filter-result"></div>
+      </section>
+
+      <section class="dom-demo users-lab" id="task-8" role="tabpanel" aria-labelledby="tab-task8" tabindex="0" hidden>
+        <span class="eyebrow">ЗАДАНИЕ 8 · СОРТИРОВКА</span>
+        <h2>Сортировка пользователей</h2>
+        <p class="dom-demo-intro">Выберите поле и направление сортировки. Порядок карточек изменится без перехода на другую страницу.</p>
+        <div class="users-controls">
+          <label for="user-sort-field">Сортировать по</label>
+          <select id="user-sort-field"><option value="firstName">Имени</option><option value="username">Нику</option><option value="age">Возрасту</option><option value="id">ID</option></select>
+          <label for="user-sort-order">Порядок</label>
+          <select id="user-sort-order"><option value="asc">По возрастанию</option><option value="desc">По убыванию</option></select>
+        </div>
+        <p class="users-status" id="user-sort-status" role="status" aria-live="polite">Загрузка пользователей…</p>
+        <div class="users-grid" id="user-sort-result"></div>
+      </section>
+
+      <dialog id="user-details-dialog" class="user-dialog" aria-labelledby="user-details-title">
+        <div class="user-dialog-header">
+          <span class="eyebrow">ПОЛНАЯ ИНФОРМАЦИЯ</span>
+          <button id="close-user-details" type="button" aria-label="Закрыть окно">×</button>
+        </div>
+        <div id="user-details-content"></div>
+      </dialog>
     </section>
   </main>
 
@@ -183,8 +234,9 @@
 
 <!-- data.js — здесь редактируется информация о людях -->
 <script src="data.js"></script>
-<script src="script.js?v=10"></script>
+<script src="script.js?v=11"></script>
 <script src="dom-task.js?v=10"></script>
 <script src="api-lab.js?v=7"></script>
+<script src="users-lab.js?v=1"></script>
 </body>
 </html>

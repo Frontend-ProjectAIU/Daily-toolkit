@@ -1,0 +1,32 @@
+.users-lab .users-controls { display:flex; align-items:end; flex-wrap:wrap; gap:12px; padding:22px; margin-bottom:18px; border:1px solid var(--line); border-radius:16px; background:var(--surface); }
+.users-lab .users-controls label { align-self:center; color:var(--muted); font-size:.85rem; font-weight:700; }
+.users-lab .users-controls input, .users-lab .users-controls select { min-width:130px; max-width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--ink); font:inherit; }
+.users-lab .users-controls input[type="search"] { min-width:min(280px,100%); }
+.users-lab .users-controls button, .users-more { padding:11px 16px; border:1px solid var(--accent-dark); border-radius:9px; background:var(--accent-dark); color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+.users-lab .users-controls button:hover, .users-more:hover { opacity:.85; }
+.users-lab .users-status { min-height:1.5em; margin:0 0 18px; color:var(--muted); font-size:.9rem; font-weight:700; overflow-wrap:anywhere; }
+.users-lab .users-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:16px; }
+.users-lab .user-card { display:flex; align-items:center; gap:16px; min-width:0; padding:19px; border:1px solid var(--line); border-radius:16px; background:var(--surface); box-shadow:0 8px 24px rgba(28,42,29,.035); }
+.users-lab .user-card img { flex:0 0 auto; width:72px; height:72px; object-fit:contain; border-radius:50%; background:var(--bg); }
+.users-lab .user-card div { min-width:0; }
+.users-lab .user-card-id { color:var(--accent-dark); font-size:.7rem; font-weight:800; letter-spacing:.08em; }
+.users-lab .user-card h3 { margin:5px 0 3px; font-size:1rem; line-height:1.3; overflow-wrap:anywhere; }
+.users-lab .user-nickname { padding:0; border:0; background:none; color:var(--accent-dark); font:inherit; font-weight:800; text-align:left; text-decoration:underline; text-underline-offset:3px; cursor:pointer; overflow-wrap:anywhere; }
+.users-lab .user-card p { margin:7px 0 0; color:var(--muted); font-size:.8rem; }
+.users-lab .users-more { grid-column:1 / -1; justify-self:center; }
+.users-lab :focus-visible, .user-dialog :focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+.user-dialog { width:min(50vw,760px); max-width:calc(100vw - 28px); max-height:calc(100dvh - 32px); padding:28px; overflow:auto; border:1px solid var(--line); border-radius:20px; background:var(--surface); color:var(--ink); box-shadow:0 24px 90px rgba(0,0,0,.25); }
+.user-dialog::backdrop { background:rgba(13,19,16,.62); backdrop-filter:blur(4px); }
+.user-dialog-header { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:20px; }
+.user-dialog-header button { width:38px; height:38px; border:1px solid var(--line); border-radius:50%; background:var(--bg); color:var(--ink); font-size:1.6rem; cursor:pointer; }
+.user-detail-heading { display:flex; align-items:center; gap:18px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+.user-detail-heading img { width:92px; height:92px; object-fit:contain; border-radius:50%; background:var(--bg); }
+.user-detail-heading h2 { margin:0 0 5px; font-size:clamp(1.3rem,2vw,1.8rem); }
+.user-detail-heading p { margin:0; color:var(--accent-dark); font-weight:800; }
+.user-detail-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 22px; margin:22px 0 0; }
+.user-detail-list div { min-width:0; padding:14px; border-radius:10px; background:var(--bg); }
+.user-detail-list dt { color:var(--muted); font-size:.73rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+.user-detail-list dd { margin:7px 0 0; overflow-wrap:anywhere; line-height:1.45; }
+:root[data-theme="dark"] .users-lab .users-controls button, :root[data-theme="dark"] .users-more { background:#52649e; border-color:#52649e; }
+@media (max-width:800px) { .user-dialog { width:min(680px,calc(100vw - 28px)); } }
+@media (max-width:560px) { .users-lab .users-controls { align-items:stretch; flex-direction:column; } .users-lab .users-controls label { align-self:start; } .users-lab .users-controls input, .users-lab .users-controls select { width:100%; } .user-dialog { padding:20px; } .user-detail-list { grid-template-columns:1fr; } }

@@ -8,13 +8,19 @@ const task2El = document.getElementById("task-2");
 const task3El = document.getElementById("task-3");
 const task4El = document.getElementById("task-4");
 const task5El = document.getElementById("task-5");
+const task6El = document.getElementById("task-6");
+const task7El = document.getElementById("task-7");
+const task8El = document.getElementById("task-8");
 const tabDefinitions = [
   ...people.map((person, index) => ({ key: `person-${index}`, label: person.name, panel: "panel" })),
   { key: "task1", label: "Задание 1", panel: "task-1" },
   { key: "task2", label: "Задание 2", panel: "task-2" },
   { key: "task3", label: "Задание 3", panel: "task-3" },
   { key: "task4", label: "Задание 4", panel: "task-4" },
-  { key: "task5", label: "Задание 5 CRUD/API", panel: "task-5" }
+  { key: "task5", label: "Задание 5 CRUD/API", panel: "task-5" },
+  { key: "task6", label: "Задание 6 GET по ID", panel: "task-6" },
+  { key: "task7", label: "Задание 7 Фильтр", panel: "task-7" },
+  { key: "task8", label: "Задание 8 Сортировка", panel: "task-8" }
 ];
 
 document.getElementById("people-count").textContent = `${people.length} участника`;
@@ -70,7 +76,7 @@ function keyFromUrl() {
   if (person !== null && /^\d+$/.test(person) && people[Number(person)]) {
     return `person-${Number(person)}`;
   }
-  if (["task2", "task3", "task4", "task5"].includes(params.get("view"))) return params.get("view");
+  if (["task2", "task3", "task4", "task5", "task6", "task7", "task8"].includes(params.get("view"))) return params.get("view");
   if (params.get("view") === "task1" || params.get("view") === "tasks") return "task1";
   return tabDefinitions[0].key;
 }
@@ -85,6 +91,9 @@ function selectTab(key, updateUrl = false) {
   task3El.hidden = selected.key !== "task3";
   task4El.hidden = selected.key !== "task4";
   task5El.hidden = selected.key !== "task5";
+  task6El.hidden = selected.key !== "task6";
+  task7El.hidden = selected.key !== "task7";
+  task8El.hidden = selected.key !== "task8";
 
   if (isProfile) {
     const personIndex = Number(selected.key.slice("person-".length));
