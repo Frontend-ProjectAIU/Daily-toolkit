@@ -18,9 +18,9 @@ const tabDefinitions = [
   { key: "task3", label: "Задание 3", panel: "task-3" },
   { key: "task4", label: "Задание 4", panel: "task-4" },
   { key: "task5", label: "Задание 5 CRUD/API", panel: "task-5" },
-  { key: "task6", label: "Задание 6 GET по ID", panel: "task-6" },
-  { key: "task7", label: "Задание 7 Фильтр", panel: "task-7" },
-  { key: "task8", label: "Задание 8 Сортировка", panel: "task-8" }
+  { key: "task6", label: "Задание 6 Задачи и авторы", panel: "task-6" },
+  { key: "task7", label: "Задание 7 Фильтр задач", panel: "task-7" },
+  { key: "task8", label: "Задание 8 Сортировка задач", panel: "task-8" }
 ];
 
 document.getElementById("people-count").textContent = `${people.length} участника`;
