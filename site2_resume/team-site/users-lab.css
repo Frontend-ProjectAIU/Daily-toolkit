@@ -1,21 +1,23 @@
 .users-lab .todo-panel { padding:22px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
-.users-lab .todo-lookup { margin-bottom:18px; }
+.users-lab .todo-lookups { display:grid; grid-template-columns:1fr 1fr auto; align-items:end; gap:12px; margin-bottom:18px; }
+.users-lab .todo-lookup { min-width:0; }
 .users-lab .todo-lookup label, .users-lab .todo-search label, .users-lab .todo-toolbar label { display:grid; gap:7px; color:var(--muted); font-size:.78rem; font-weight:700; }
 .users-lab .todo-lookup-row, .users-lab .todo-search, .users-lab .todo-toolbar { display:flex; align-items:end; flex-wrap:wrap; gap:10px; }
-.users-lab .todo-lookup-row input { flex:1 1 200px; }
+.users-lab .todo-lookup-row input { flex:1 1 100px; min-width:0; }
 .users-lab .todo-search { margin-bottom:18px; }
 .users-lab .todo-search label { flex:1 1 220px; }
 .users-lab .todo-toolbar { justify-content:flex-end; margin-bottom:16px; }
 .users-lab .todo-toolbar label { min-width:155px; }
 .users-lab input:not([type="checkbox"]), .users-lab select, .user-dialog select, .todo-add-form input, .todo-add-form select { min-height:40px; width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--ink); font:inherit; font-size:.9rem; }
 .users-lab .todo-lookup-row button, .users-lab .todo-more, .todo-add-form button { min-height:40px; padding:9px 16px; border:0; border-radius:9px; background:var(--accent-dark); color:#fff; font:inherit; font-weight:800; cursor:pointer; }
-.users-lab .todo-lookup-row .todo-clear { border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+.users-lab .todo-clear { min-height:40px; padding:9px 12px; border:1px solid var(--line); border-radius:9px; background:var(--bg); color:var(--ink); font:inherit; font-weight:700; cursor:pointer; }
 .users-lab .todo-add, .user-dialog-filters button { width:40px; height:40px; padding:0; border:0; border-radius:50%; background:#8165e8; color:#fff; font-size:1.6rem; line-height:1; cursor:pointer; }
 .users-lab .todo-message { margin:0 0 8px; min-height:1.3em; color:var(--accent-dark); font-size:.82rem; overflow-wrap:anywhere; }
 .todo-count { margin:0 0 12px; color:var(--muted); font-size:.83rem; }
 .todo-list { display:grid; gap:8px; }
 .todo-row { display:flex; align-items:center; gap:12px; min-height:49px; padding:7px 10px 7px 14px; border:1px solid var(--line); border-radius:11px; background:var(--surface); }
 .todo-check { flex:0 0 auto; width:19px; height:19px; margin:0; accent-color:#7465e5; cursor:pointer; }
+.todo-id { flex:none; min-width:37px; color:var(--muted); font-size:.7rem; font-weight:800; }
 .todo-title { flex:1 1 auto; min-width:0; font-size:.9rem; line-height:1.4; overflow-wrap:anywhere; }
 .todo-row.is-done .todo-title { color:var(--muted); text-decoration:line-through; }
 .todo-author { display:inline-flex; align-items:center; gap:5px; flex:0 1 auto; max-width:45%; min-width:0; padding:3px 9px 3px 3px; border:1px solid var(--line); border-radius:99px; background:var(--surface); color:#6558c5; font:inherit; font-size:.8rem; font-weight:800; cursor:pointer; }
@@ -52,5 +54,5 @@
 .user-tasks-pane .todo-row { padding-left:10px; }
 .user-tasks-pane .todo-title { font-size:.84rem; }
 :root[data-theme="dark"] .users-lab .todo-add, :root[data-theme="dark"] .user-dialog-filters button { background:#7863d7; }
-@media (max-width:700px) { .user-dialog { max-height:calc(100dvh - 20px); } .user-dialog-layout { grid-template-columns:1fr; max-height:calc(100dvh - 22px); overflow:auto; } .user-profile-pane, .user-tasks-pane { overflow:visible; } .user-profile-pane { border-right:0; border-bottom:1px solid var(--line); } }
+@media (max-width:700px) { .users-lab .todo-lookups { grid-template-columns:1fr; } .user-dialog { max-height:calc(100dvh - 20px); } .user-dialog-layout { grid-template-columns:1fr; max-height:calc(100dvh - 22px); overflow:auto; } .user-profile-pane, .user-tasks-pane { overflow:visible; } .user-profile-pane { border-right:0; border-bottom:1px solid var(--line); } }
 @media (max-width:520px) { .users-lab .todo-panel { padding:14px; } .users-lab .todo-toolbar { justify-content:stretch; } .users-lab .todo-toolbar label { flex:1 1 125px; min-width:0; } .todo-row { gap:7px; } .todo-author { max-width:38%; font-size:.7rem; } .todo-author img { width:20px; height:20px; } .todo-title { font-size:.78rem; } }

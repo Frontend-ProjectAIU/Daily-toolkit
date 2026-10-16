@@ -20,7 +20,7 @@ function buildBoards() {
     const mode = board.dataset.mode;
     board.innerHTML = `
       <div class="todo-panel">
-        ${mode === "lookup" ? `<form class="todo-lookup"><label for="todo-user-id">ID пользователя (пусто — все)</label><div class="todo-lookup-row"><input id="todo-user-id" type="number" min="1" step="1" placeholder="Например, 5"><button type="submit">GET</button><button class="todo-clear" type="button">Все</button></div></form>` : ""}
+        ${mode === "lookup" ? `<div class="todo-lookups"><form class="todo-lookup todo-lookup-user"><label for="todo-user-id">ID пользователя</label><div class="todo-lookup-row"><input id="todo-user-id" type="number" min="1" step="1" placeholder="Например, 152" required><button type="submit">GET автора</button></div></form><form class="todo-lookup todo-lookup-task"><label for="todo-task-id">ID задачи</label><div class="todo-lookup-row"><input id="todo-task-id" type="number" min="1" step="1" placeholder="Например, 1" required><button type="submit">GET задачу</button></div></form><button class="todo-clear" type="button">Показать все</button></div>` : ""}
         ${mode === "filter" ? `<div class="todo-search"><label>Текст задачи <input class="todo-text-search" type="search" placeholder="Поиск по задаче"></label><label>Автор <input class="todo-author-search" type="search" placeholder="Ник или имя"></label></div>` : ""}
         <div class="todo-toolbar">
           <label>Состояние <select class="todo-status"><option value="all">Все задачи</option><option value="open">Не выполнены</option><option value="done">Выполнены</option></select></label>
@@ -71,7 +71,11 @@ function todoRow(todo, inModal = false) {
   const title = document.createElement("span");
   title.className = "todo-title";
   title.textContent = todo.todo;
-  row.append(checkbox, title);
+  const taskId = document.createElement("small");
+  taskId.className = "todo-id";
+  taskId.textContent = todo.local ? "новая" : `#${todo.id}`;
+  taskId.title = todo.local ? "Задача добавлена на этой странице" : `ID задачи: ${todo.id}`;
+  row.append(checkbox, taskId, title);
   if (!inModal) {
     const author = authorOf(todo);
     const profile = document.createElement("button");
@@ -85,7 +89,7 @@ function todoRow(todo, inModal = false) {
       profile.appendChild(image);
     }
     const nickname = document.createElement("span");
-    nickname.textContent = author ? `@${author.username}` : `ID ${todo.userId}`;
+    nickname.textContent = author ? `@${author.username} · ID ${todo.userId}` : `ID ${todo.userId}`;
     profile.appendChild(nickname);
     profile.setAttribute("aria-label", `Профиль автора ${nickname.textContent}`);
     row.appendChild(profile);
@@ -102,6 +106,7 @@ function todoRow(todo, inModal = false) {
 function renderBoard(board) {
   let items = todoState.todos;
   if (board.dataset.mode === "lookup" && board.dataset.userId) items = items.filter((todo) => todo.userId === Number(board.dataset.userId));
+  if (board.dataset.mode === "lookup" && board.dataset.todoId) items = items.filter((todo) => todo.id === Number(board.dataset.todoId));
   if (board.dataset.mode === "filter") {
     const titleQuery = board.querySelector(".todo-text-search").value.trim().toLocaleLowerCase();
     const authorQuery = board.querySelector(".todo-author-search").value.trim().toLocaleLowerCase();
@@ -129,22 +134,28 @@ async function handleBoardSubmit(event) {
   if (!event.target.matches(".todo-lookup")) return;
   event.preventDefault();
   const board = event.currentTarget;
-  const raw = board.querySelector("#todo-user-id").value.trim();
-  if (!raw) {
-    delete board.dataset.userId;
-    message(board, "Показаны задачи всех авторов.");
-    renderBoard(board);
-    return;
-  }
+  const isTask = event.target.matches(".todo-lookup-task");
+  const raw = board.querySelector(isTask ? "#todo-task-id" : "#todo-user-id").value.trim();
   const id = Number(raw);
   if (!Number.isSafeInteger(id) || id < 1) { message(board, "Введите положительный целый ID."); return; }
-  message(board, `GET /users/${id} и /todos/user/${id} — загрузка…`);
+  message(board, isTask ? `GET /todos/${id} — загрузка…` : `GET /users/${id} и /todos/user/${id} — загрузка…`);
   try {
-    const [user] = await Promise.all([requestJson(`/users/${id}`), requestJson(`/todos/user/${id}`)]);
-    todoState.users.set(user.id, user);
-    board.dataset.userId = String(id);
+    if (isTask) {
+      const todo = await requestJson(`/todos/${id}`);
+      if (!todoState.todos.some((item) => item.id === todo.id)) throw new Error("Эта задача уже удалена на странице.");
+      delete board.dataset.userId;
+      board.dataset.todoId = String(id);
+      board.querySelector("#todo-user-id").value = "";
+      message(board, `Найдена задача #${id}. ID автора: ${todo.userId}.`);
+    } else {
+      const [user] = await Promise.all([requestJson(`/users/${id}`), requestJson(`/todos/user/${id}`)]);
+      todoState.users.set(user.id, user);
+      delete board.dataset.todoId;
+      board.dataset.userId = String(id);
+      board.querySelector("#todo-task-id").value = "";
+      message(board, `Найден автор @${user.username} (ID ${id}). Нажмите на ник справа, чтобы открыть профиль.`);
+    }
     board.dataset.visibleCount = "20";
-    message(board, `Найден автор @${user.username}. Нажмите на ник справа, чтобы открыть профиль.`);
     renderAll();
   } catch (error) { message(board, error.message); }
 }
@@ -154,7 +165,9 @@ function handleBoardClick(event) {
   const target = event.target;
   if (target.closest(".todo-clear")) {
     delete board.dataset.userId;
+    delete board.dataset.todoId;
     board.querySelector("#todo-user-id").value = "";
+    board.querySelector("#todo-task-id").value = "";
     message(board, "Показаны задачи всех авторов.");
     renderBoard(board);
   } else if (target.closest(".todo-more")) {
@@ -269,6 +282,7 @@ function renderProfile(user) {
   name.textContent = `${user.firstName} ${user.lastName}`;
   const details = document.createElement("dl");
   details.className = "user-profile-details";
+  detailRow(details, "ID пользователя", user.id);
   detailRow(details, "Возраст", user.age);
   detailRow(details, "Пол", user.gender);
   detailRow(details, "Email", user.email);
