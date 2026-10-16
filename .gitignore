@@ -9,5 +9,17 @@ Thumbs.db
 # Логиfdfdfd
 *.log
 
+# Локальные настройки и секреты
+.env
+.env.*
+!.env.example
+
+# Временные файлы и кэш
+*.tmp
+*.swp
+.cache/
+__pycache__/
+*.py[cod]
+
 # Зависимости (на случай, если позже добавите сборку)
 node_modules/
