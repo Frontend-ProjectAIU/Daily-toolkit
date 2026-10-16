@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=8">
 <link rel="stylesheet" href="api-lab.css?v=6">
-<link rel="stylesheet" href="users-lab.css?v=3">
+<link rel="stylesheet" href="users-lab.css?v=4">
 </head>
 <body>
 <div class="site-shell">
@@ -211,11 +211,23 @@
               <select id="modal-task-sort" aria-label="Сортировка задач автора"><option value="id">По ID</option><option value="title">По названию</option><option value="status">По выполнению</option></select>
               <button id="modal-add-task" type="button" title="Добавить задачу" aria-label="Добавить задачу">+</button>
             </div>
-            <div id="modal-task-composer" class="todo-composer" hidden></div>
             <p id="modal-task-count" class="todo-count" role="status"></p>
             <div id="modal-task-list" class="todo-list"></div>
           </div>
         </div>
+      </dialog>
+
+      <dialog id="todo-editor-dialog" class="todo-editor-dialog" aria-labelledby="todo-editor-title">
+        <form id="todo-editor-form">
+          <h3 id="todo-editor-title">Новая задача</h3>
+          <label class="todo-editor-text">Текст задачи <input id="todo-editor-text" type="text" maxlength="200" required placeholder="Напишите задачу"></label>
+          <p id="todo-editor-error" class="todo-editor-error" role="alert" hidden></p>
+          <div class="todo-editor-actions">
+            <label for="todo-editor-user-id">ID пользователя <input id="todo-editor-user-id" type="number" min="1" step="1" required></label>
+            <button id="todo-editor-cancel" type="button">Отмена</button>
+            <button id="todo-editor-save" type="submit">Сохранить</button>
+          </div>
+        </form>
       </dialog>
     </section>
   </main>
@@ -228,6 +240,6 @@
 <script src="script.js?v=12"></script>
 <script src="dom-task.js?v=10"></script>
 <script src="api-lab.js?v=7"></script>
-<script src="users-lab.js?v=3"></script>
+<script src="users-lab.js?v=6"></script>
 </body>
 </html>

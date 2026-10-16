@@ -1,11 +1,19 @@
 // Задания 6–8: задачи DummyJSON, авторы, фильтры и сортировка.
+(() => {
 const todoApi = "https://dummyjson.com";
-const todoState = { todos: [], users: new Map(), nextLocalId: -1, activeUserId: null };
+const todoState = { todos: [], users: new Map(), nextLocalId: 1, activeUserId: null };
 const boards = [...document.querySelectorAll(".todo-app")];
 const userDialog = document.getElementById("user-details-dialog");
 const profilePane = document.getElementById("user-details-content");
 const modalList = document.getElementById("modal-task-list");
 const modalCount = document.getElementById("modal-task-count");
+const editorDialog = document.getElementById("todo-editor-dialog");
+const editorForm = document.getElementById("todo-editor-form");
+const editorText = document.getElementById("todo-editor-text");
+const editorUserId = document.getElementById("todo-editor-user-id");
+const editorError = document.getElementById("todo-editor-error");
+let editingTodoId = null;
+let editorSourceBoard = null;
 
 async function requestJson(path, options) {
   const response = await fetch(`${todoApi}${path}`, options);
@@ -28,7 +36,6 @@ function buildBoards() {
           <label>Порядок <select class="todo-order"><option value="asc">По возрастанию</option><option value="desc">По убыванию</option></select></label>
           <button class="todo-add" type="button" aria-label="Добавить задачу" title="Добавить задачу">+</button>
         </div>
-        <div class="todo-composer" hidden></div>
         <p class="todo-message" role="status" aria-live="polite"></p>
         <p class="todo-count" role="status">Загрузка задач…</p>
         <div class="todo-list"></div>
@@ -68,13 +75,15 @@ function todoRow(todo, inModal = false) {
   checkbox.className = "todo-check";
   checkbox.checked = todo.completed;
   checkbox.setAttribute("aria-label", `Задача выполнена: ${todo.todo}`);
-  const title = document.createElement("span");
+  const title = document.createElement("button");
+  title.type = "button";
   title.className = "todo-title";
   title.textContent = todo.todo;
+  title.title = "Изменить текст задачи";
   const taskId = document.createElement("small");
   taskId.className = "todo-id";
-  taskId.textContent = todo.local ? "новая" : `#${todo.id}`;
-  taskId.title = todo.local ? "Задача добавлена на этой странице" : `ID задачи: ${todo.id}`;
+  taskId.textContent = todo.local ? `#${todo.id} лок.` : `#${todo.id}`;
+  taskId.title = todo.local ? `Временный ID задачи на этой странице: ${todo.id}` : `ID задачи: ${todo.id}`;
   row.append(checkbox, taskId, title);
   if (!inModal) {
     const author = authorOf(todo);
@@ -141,12 +150,13 @@ async function handleBoardSubmit(event) {
   message(board, isTask ? `GET /todos/${id} — загрузка…` : `GET /users/${id} и /todos/user/${id} — загрузка…`);
   try {
     if (isTask) {
-      const todo = await requestJson(`/todos/${id}`);
+      const local = todoState.todos.find((item) => item.id === id && item.local);
+      const todo = local || await requestJson(`/todos/${id}`);
       if (!todoState.todos.some((item) => item.id === todo.id)) throw new Error("Эта задача уже удалена на странице.");
       delete board.dataset.userId;
       board.dataset.todoId = String(id);
       board.querySelector("#todo-user-id").value = "";
-      message(board, `Найдена задача #${id}. ID автора: ${todo.userId}.`);
+      message(board, `${local ? "Найдена локальная" : "Найдена"} задача #${id}. ID автора: ${todo.userId}.`);
     } else {
       const [user] = await Promise.all([requestJson(`/users/${id}`), requestJson(`/todos/user/${id}`)]);
       todoState.users.set(user.id, user);
@@ -174,7 +184,10 @@ function handleBoardClick(event) {
     board.dataset.visibleCount = String(Number(board.dataset.visibleCount) + 20);
     renderBoard(board);
   } else if (target.closest(".todo-add")) {
-    toggleComposer(board.querySelector(".todo-composer"), Number(board.dataset.userId) || null);
+    openTaskEditor(null, Number(board.dataset.userId) || null, false, board);
+  } else if (target.closest(".todo-title")) {
+    const todo = todoState.todos.find((item) => item.id === Number(target.closest(".todo-row").dataset.todoId));
+    if (todo) openTaskEditor(todo, todo.userId, true);
   } else if (target.closest(".todo-author")) {
     openUser(Number(target.closest(".todo-author").dataset.userId));
   } else if (target.closest(".todo-remove")) {
@@ -188,51 +201,65 @@ function handleBoardChange(event) {
   else if (event.target.matches(".todo-status, .todo-sort, .todo-order")) { board.dataset.visibleCount = "20"; renderBoard(board); }
 }
 
-function toggleComposer(container, userId = null) {
-  if (!container.hidden) { container.hidden = true; container.replaceChildren(); return; }
-  const form = document.createElement("form");
-  form.className = "todo-add-form";
-  const input = document.createElement("input");
-  input.type = "text";
-  input.maxLength = 140;
-  input.required = true;
-  input.placeholder = "Название новой задачи";
-  input.setAttribute("aria-label", "Название новой задачи");
-  const select = document.createElement("select");
-  select.setAttribute("aria-label", "Автор задачи");
-  const authors = [...todoState.users.values()].filter((user) => todoState.todos.some((todo) => todo.userId === user.id));
-  authors.forEach((user) => {
-    const option = document.createElement("option");
-    option.value = String(user.id);
-    option.textContent = `@${user.username}`;
-    select.appendChild(option);
-  });
-  if (userId) { select.value = String(userId); select.hidden = true; }
-  const submit = document.createElement("button");
-  submit.type = "submit";
-  submit.textContent = "Добавить";
-  form.append(input, select, submit);
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const text = input.value.trim();
-    const authorId = Number(select.value);
-    if (!text || !authorId) return;
-    submit.disabled = true;
-    try {
-      await requestJson("/todos/add", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ todo: text, completed: false, userId: authorId }) });
-      todoState.todos.unshift({ id: todoState.nextLocalId--, todo: text, completed: false, userId: authorId, local: true });
-      container.hidden = true;
-      container.replaceChildren();
-      renderAll();
-    } catch (error) {
-      submit.disabled = false;
-      alert(`Не удалось добавить задачу. ${error.message}`);
-    }
-  });
-  container.replaceChildren(form);
-  container.hidden = false;
-  input.focus();
+function openTaskEditor(todo, userId = null, lockUserId = false, sourceBoard = null) {
+  editingTodoId = todo ? todo.id : null;
+  editorSourceBoard = sourceBoard;
+  document.getElementById("todo-editor-title").textContent = todo ? "Изменить задачу" : "Новая задача";
+  editorText.value = todo?.todo || "";
+  editorUserId.value = userId || "";
+  editorUserId.readOnly = lockUserId;
+  editorError.hidden = true;
+  editorDialog.showModal();
+  (lockUserId || userId ? editorText : editorUserId).focus();
 }
+
+document.getElementById("todo-editor-cancel").addEventListener("click", () => editorDialog.close());
+editorDialog.addEventListener("click", (event) => { if (event.target === editorDialog) editorDialog.close(); });
+editorForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const text = editorText.value.trim();
+  const userId = Number(editorUserId.value);
+  if (!text || !Number.isSafeInteger(userId) || userId < 1) return;
+  const saveButton = document.getElementById("todo-editor-save");
+  saveButton.disabled = true;
+  editorError.hidden = true;
+  try {
+    if (editingTodoId === null) {
+      let user = todoState.users.get(userId);
+      if (!user) user = await requestJson(`/users/${userId}`);
+      todoState.users.set(userId, user);
+      await requestJson("/todos/add", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ todo: text, completed: false, userId }) });
+      todoState.todos.unshift({ id: todoState.nextLocalId++, todo: text, completed: false, userId, local: true });
+      if (editorSourceBoard) {
+        editorSourceBoard.querySelector(".todo-sort").value = "id";
+        editorSourceBoard.querySelector(".todo-order").value = "desc";
+        editorSourceBoard.querySelector(".todo-status").value = "all";
+        editorSourceBoard.dataset.visibleCount = "20";
+        if (editorSourceBoard.dataset.mode === "lookup") {
+          delete editorSourceBoard.dataset.todoId;
+          editorSourceBoard.dataset.userId = String(userId);
+          editorSourceBoard.querySelector("#todo-user-id").value = String(userId);
+          editorSourceBoard.querySelector("#todo-task-id").value = "";
+        }
+        if (editorSourceBoard.dataset.mode === "filter") {
+          editorSourceBoard.querySelector(".todo-text-search").value = "";
+          editorSourceBoard.querySelector(".todo-author-search").value = "";
+        }
+        message(editorSourceBoard, `Задача добавлена для пользователя ID ${userId}.`);
+      }
+    } else {
+      const todo = todoState.todos.find((item) => item.id === editingTodoId);
+      if (!todo) throw new Error("Задача не найдена.");
+      if (!todo.local) await requestJson(`/todos/${todo.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ todo: text }) });
+      todo.todo = text;
+    }
+    editorDialog.close();
+    renderAll();
+  } catch (error) {
+    editorError.textContent = `Не удалось сохранить. ${error.message}`;
+    editorError.hidden = false;
+  } finally { saveButton.disabled = false; }
+});
 
 async function changeCompleted(id, completed, board) {
   const todo = todoState.todos.find((item) => item.id === id);
@@ -316,9 +343,6 @@ async function openUser(id) {
   profilePane.textContent = "Загрузка профиля…";
   document.getElementById("modal-task-status").value = "all";
   document.getElementById("modal-task-sort").value = "id";
-  const composer = document.getElementById("modal-task-composer");
-  composer.hidden = true;
-  composer.replaceChildren();
   userDialog.showModal();
   renderModalTasks();
   try {
@@ -332,12 +356,18 @@ document.getElementById("close-user-details").addEventListener("click", () => us
 userDialog.addEventListener("click", (event) => { if (event.target === userDialog) userDialog.close(); });
 document.getElementById("modal-task-status").addEventListener("change", renderModalTasks);
 document.getElementById("modal-task-sort").addEventListener("change", renderModalTasks);
-document.getElementById("modal-add-task").addEventListener("click", () => toggleComposer(document.getElementById("modal-task-composer"), todoState.activeUserId));
+document.getElementById("modal-add-task").addEventListener("click", () => openTaskEditor(null, todoState.activeUserId, true));
 modalList.addEventListener("change", (event) => {
   if (event.target.matches(".todo-check")) changeCompleted(Number(event.target.closest(".todo-row").dataset.todoId), event.target.checked);
 });
 modalList.addEventListener("click", (event) => {
-  if (event.target.closest(".todo-remove")) removeTodo(Number(event.target.closest(".todo-row").dataset.todoId));
+  const row = event.target.closest(".todo-row");
+  if (!row) return;
+  if (event.target.closest(".todo-remove")) removeTodo(Number(row.dataset.todoId));
+  else if (event.target.closest(".todo-title")) {
+    const todo = todoState.todos.find((item) => item.id === Number(row.dataset.todoId));
+    if (todo) openTaskEditor(todo, todo.userId, true);
+  }
 });
 
 async function loadTodoData() {
@@ -348,6 +378,7 @@ async function loadTodoData() {
     ]);
     if (!Array.isArray(todoData.todos) || !Array.isArray(userData.users)) throw new Error("Неверный ответ API.");
     todoState.todos = todoData.todos;
+    todoState.nextLocalId = Math.max(0, ...todoData.todos.map((todo) => todo.id)) + 1;
     todoState.users = new Map(userData.users.map((user) => [user.id, user]));
     renderAll();
   } catch (error) {
@@ -360,3 +391,4 @@ async function loadTodoData() {
 
 buildBoards();
 loadTodoData();
+})();
